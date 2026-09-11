@@ -3,7 +3,9 @@
 
 export const realPlaces = [
   {
-    "id": 123,
+    "id": 13334052241,
+    "lat": 28.6955986,
+    "lon": 77.329776,
     "name": "24 Fitness Gym And Spa",
     "type": "Gym",
     "area": "Delhi",
@@ -16,7 +18,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 107,
+    "id": 12647123173,
+    "lat": 28.5962173,
+    "lon": 77.0404179,
     "name": "3Monkeys's Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -29,7 +33,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 202,
+    "id": 1431420056,
+    "lat": 28.5320094,
+    "lon": 77.2651364,
     "name": "A Fitness Fact",
     "type": "Gym",
     "area": "New Delhi",
@@ -42,7 +48,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 43,
+    "id": 9600978813,
+    "lat": 28.6108742,
+    "lon": 77.3353222,
     "name": "Absolute Fit",
     "type": "Gym",
     "area": "Delhi",
@@ -55,7 +63,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 11,
+    "id": 5122054876,
+    "lat": 28.6517189,
+    "lon": 77.2982129,
     "name": "Adam & Eve Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -68,7 +78,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 115,
+    "id": 13110035503,
+    "lat": 28.6821043,
+    "lon": 77.1990201,
     "name": "Aliens Dance And Fitness Centre",
     "type": "Gym",
     "area": "Delhi",
@@ -81,7 +93,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 72,
+    "id": 11690465670,
+    "lat": 28.6916829,
+    "lon": 77.2915831,
     "name": "Anytime Fit",
     "type": "Gym",
     "area": "jyoti nagar",
@@ -94,7 +108,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 177,
+    "id": 350727894,
+    "lat": 28.6943032,
+    "lon": 77.1303444,
     "name": "Anytime fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -107,7 +123,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 17,
+    "id": 5343164323,
+    "lat": 28.7194381,
+    "lon": 77.1096934,
     "name": "Anytime Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -120,7 +138,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 22,
+    "id": 5847695285,
+    "lat": 28.7044276,
+    "lon": 77.1951748,
     "name": "Anytime Fitness Model Town 1",
     "type": "Gym",
     "area": "Delhi",
@@ -133,7 +153,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 112,
+    "id": 12897313096,
+    "lat": 28.5987273,
+    "lon": 77.3364295,
     "name": "AR Fitness Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -146,7 +168,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 178,
+    "id": 350864418,
+    "lat": 28.5862698,
+    "lon": 77.0820405,
     "name": "Aura Gymnasium",
     "type": "Gym",
     "area": "Palam",
@@ -159,7 +183,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 1,
+    "id": 417738678,
+    "lat": 28.4731839,
+    "lon": 77.0421343,
     "name": "Baba Ganganath Swimming Centre",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -172,7 +198,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 77,
+    "id": 11697104356,
+    "lat": 28.5012351,
+    "lon": 77.284215,
     "name": "being fit gym",
     "type": "Gym",
     "area": "Delhi",
@@ -185,7 +213,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 78,
+    "id": 11697530551,
+    "lat": 28.4945087,
+    "lon": 77.2963215,
     "name": "bhagat singh gym",
     "type": "Gym",
     "area": "Delhi",
@@ -198,7 +228,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 30,
+    "id": 6407004633,
+    "lat": 28.5091679,
+    "lon": 77.2012764,
     "name": "Bindu's Ayushi",
     "type": "Gym",
     "area": "Delhi",
@@ -211,7 +243,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 46,
+    "id": 10571990846,
+    "lat": 28.6227195,
+    "lon": 77.2906787,
     "name": "Black Cat Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -224,7 +258,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 189,
+    "id": 1137301505,
+    "lat": 28.5293537,
+    "lon": 77.1490022,
     "name": "Boulder Box",
     "type": "Gym",
     "area": "Delhi",
@@ -239,7 +275,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 51,
+    "id": 10864770500,
+    "lat": 28.5363715,
+    "lon": 77.210859,
     "name": "Brahma Kumaris",
     "type": "Yoga Studio",
     "area": "Delhi",
@@ -252,7 +290,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 42,
+    "id": 9554215740,
+    "lat": 28.6083531,
+    "lon": 77.2933872,
     "name": "Cardio Priwe Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -265,7 +305,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 49,
+    "id": 10739040938,
+    "lat": 28.7219386,
+    "lon": 77.1690108,
     "name": "Champion Unisex Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -278,7 +320,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 10,
+    "id": 5068296536,
+    "lat": 28.7337404,
+    "lon": 76.8958227,
     "name": "Chhillar Gym Center",
     "type": "Gym",
     "area": "Delhi",
@@ -291,7 +335,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 166,
+    "id": 283886303,
+    "lat": 28.5998156,
+    "lon": 77.3252747,
     "name": "Chilla Sports Complex",
     "type": "Activity Centre",
     "area": "Vasundhra Enclave",
@@ -304,7 +350,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 165,
+    "id": 267276543,
+    "lat": 28.4474921,
+    "lon": 77.0952031,
     "name": "City Club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -317,7 +365,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 47,
+    "id": 10598471421,
+    "lat": 28.484486,
+    "lon": 77.129079,
     "name": "Climb Central Delhi",
     "type": "Activity Centre",
     "area": "New Delhi",
@@ -330,7 +380,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 102,
+    "id": 12458056197,
+    "lat": 28.5862951,
+    "lon": 77.0711775,
     "name": "Club Viva",
     "type": "Gym",
     "area": "Delhi",
@@ -343,7 +395,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 173,
+    "id": 302534886,
+    "lat": 28.6153106,
+    "lon": 77.2748334,
     "name": "Commonwealth Games Village Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -356,7 +410,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 121,
+    "id": 13227576853,
+    "lat": 28.5933283,
+    "lon": 77.046681,
     "name": "Cosco Fitness Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -369,7 +425,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 88,
+    "id": 11853986808,
+    "lat": 28.5653713,
+    "lon": 77.238953,
     "name": "cult.fit",
     "type": "Gym",
     "area": "Delhi",
@@ -382,7 +440,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 135,
+    "id": 13821548301,
+    "lat": 28.4462823,
+    "lon": 77.0613073,
     "name": "Cult.Fit",
     "type": "Gym",
     "area": "Delhi",
@@ -395,7 +455,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 144,
+    "id": 14150509799,
+    "lat": 28.4530352,
+    "lon": 77.0946406,
     "name": "cult.fit Ambience Public School",
     "type": "Gym",
     "area": "Delhi",
@@ -408,7 +470,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 31,
+    "id": 6459196231,
+    "lat": 28.5406196,
+    "lon": 77.2566653,
     "name": "Cure Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -421,7 +485,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 80,
+    "id": 11698099503,
+    "lat": 28.6022647,
+    "lon": 77.0585737,
     "name": "Cut fitness gym",
     "type": "Gym",
     "area": "Delhi",
@@ -434,7 +500,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 118,
+    "id": 13142525747,
+    "lat": 28.5482568,
+    "lon": 77.2160025,
     "name": "Damo Shaolin Kung Fu School",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -447,7 +515,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 91,
+    "id": 11917129209,
+    "lat": 28.732335,
+    "lon": 77.088185,
     "name": "Dare 2 Fit",
     "type": "Gym",
     "area": "New Delhi",
@@ -460,7 +530,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 153,
+    "id": 80954566,
+    "lat": 28.5983435,
+    "lon": 77.2043326,
     "name": "Delhi Gymkhana Club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -473,7 +545,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 152,
+    "id": 80950078,
+    "lat": 28.5916485,
+    "lon": 77.2054772,
     "name": "Delhi Racecourse",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -486,7 +560,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 65,
+    "id": 11096994405,
+    "lat": 28.5350023,
+    "lon": 77.2467216,
     "name": "Delhi Rock",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -501,7 +577,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 48,
+    "id": 10692573223,
+    "lat": 28.6379054,
+    "lon": 77.2825242,
     "name": "Divine Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -514,7 +592,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 75,
+    "id": 11696922990,
+    "lat": 28.6885289,
+    "lon": 77.2926936,
     "name": "DIVINE FITNESS",
     "type": "Gym",
     "area": "Delhi",
@@ -527,7 +607,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 154,
+    "id": 121576289,
+    "lat": 28.4669157,
+    "lon": 77.0837822,
     "name": "DLF City Club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -540,7 +622,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 9,
+    "id": 4531095007,
+    "lat": 28.4939054,
+    "lon": 77.1044576,
     "name": "DLF City Club Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -553,7 +637,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 183,
+    "id": 456875783,
+    "lat": 28.4947797,
+    "lon": 77.1042528,
     "name": "DLF City Club Swimming Pool",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -566,7 +652,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 184,
+    "id": 484401839,
+    "lat": 28.5002378,
+    "lon": 77.2673158,
     "name": "Dr. Karni Singh Shooting Range",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -579,7 +667,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 122,
+    "id": 13227612587,
+    "lat": 28.5931765,
+    "lon": 77.0465028,
     "name": "Dronacharya's Gym and Spa",
     "type": "Gym",
     "area": "Delhi",
@@ -592,7 +682,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 82,
+    "id": 11698667588,
+    "lat": 28.7528887,
+    "lon": 77.1159305,
     "name": "DTU Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -605,7 +697,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 157,
+    "id": 154160585,
+    "lat": 28.5910618,
+    "lon": 77.0552932,
     "name": "Dwarka Sector 11 Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -618,7 +712,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 160,
+    "id": 209494651,
+    "lat": 28.5898241,
+    "lon": 77.0259713,
     "name": "Dwarka Sector 17 Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -631,7 +727,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 55,
+    "id": 10936724404,
+    "lat": 28.7212471,
+    "lon": 77.1766883,
     "name": "Dynamic Fitness & Crossfit",
     "type": "Gym",
     "area": "Delhi",
@@ -644,7 +742,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 66,
+    "id": 11236687150,
+    "lat": 28.6307933,
+    "lon": 77.2773989,
     "name": "Eagle Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -657,7 +757,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 15,
+    "id": 5279167035,
+    "lat": 28.5879849,
+    "lon": 77.3022083,
     "name": "Eastend Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -670,7 +772,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 143,
+    "id": 14150509798,
+    "lat": 28.455116,
+    "lon": 77.0945657,
     "name": "Evolve Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -685,7 +789,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 61,
+    "id": 11078901763,
+    "lat": 28.6345706,
+    "lon": 77.3043719,
     "name": "EXE",
     "type": "Gym",
     "area": "Delhi",
@@ -698,7 +804,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 38,
+    "id": 8361457004,
+    "lat": 28.4092384,
+    "lon": 77.0902769,
     "name": "FaceOff-the footballturf",
     "type": "Activity Centre",
     "area": "gurgaon",
@@ -711,7 +819,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 58,
+    "id": 10991795792,
+    "lat": 28.7505184,
+    "lon": 77.1598602,
     "name": "Family Fitness Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -724,7 +834,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 23,
+    "id": 5960810486,
+    "lat": 28.5338549,
+    "lon": 77.2220693,
     "name": "Fatangs united",
     "type": "Gym",
     "area": "Delhi",
@@ -737,7 +849,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 101,
+    "id": 12208840342,
+    "lat": 28.5684432,
+    "lon": 77.2449439,
     "name": "Fit King Fitness & Health",
     "type": "Gym",
     "area": "Delhi",
@@ -752,7 +866,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 81,
+    "id": 11698100209,
+    "lat": 28.6025186,
+    "lon": 77.0583317,
     "name": "FIT N FAB gym",
     "type": "Gym",
     "area": "Delhi",
@@ -765,7 +881,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 39,
+    "id": 8631212504,
+    "lat": 28.6797865,
+    "lon": 77.0894476,
     "name": "Fitholic Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -778,7 +896,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 175,
+    "id": 349780079,
+    "lat": 28.6650837,
+    "lon": 77.0997526,
     "name": "Fitnation Gym",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -791,7 +911,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 87,
+    "id": 11837682527,
+    "lat": 28.6226575,
+    "lon": 77.2904845,
     "name": "Fitness 4 Life Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -804,7 +926,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 119,
+    "id": 13191135212,
+    "lat": 28.4482326,
+    "lon": 77.099004,
     "name": "Fitness First",
     "type": "Gym",
     "area": "Delhi",
@@ -817,7 +941,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 53,
+    "id": 10901611715,
+    "lat": 28.740854,
+    "lon": 77.1330954,
     "name": "Fitness Hub",
     "type": "Gym",
     "area": "Delhi",
@@ -830,7 +956,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 29,
+    "id": 6281556241,
+    "lat": 28.5692469,
+    "lon": 77.2486371,
     "name": "Fitness Mantra",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -843,7 +971,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 14,
+    "id": 5269021886,
+    "lat": 28.5690321,
+    "lon": 77.1628161,
     "name": "Fitness Señora",
     "type": "Gym",
     "area": "Delhi",
@@ -856,7 +986,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 12,
+    "id": 5236208966,
+    "lat": 28.5700667,
+    "lon": 77.2387905,
     "name": "Fitness Step",
     "type": "Gym",
     "area": "Delhi",
@@ -869,7 +1001,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 3,
+    "id": 1528705924,
+    "lat": 28.569753,
+    "lon": 77.2673093,
     "name": "Fitness Studioz",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -882,7 +1016,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 26,
+    "id": 6150155870,
+    "lat": 28.5103429,
+    "lon": 77.2020841,
     "name": "Fitness Zone Gym II",
     "type": "Gym",
     "area": "Delhi",
@@ -895,7 +1031,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 62,
+    "id": 11078901775,
+    "lat": 28.634687,
+    "lon": 77.3041518,
     "name": "Fitnest",
     "type": "Gym",
     "area": "Delhi",
@@ -908,7 +1046,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 63,
+    "id": 11078901779,
+    "lat": 28.6359854,
+    "lon": 77.3055929,
     "name": "Fitreaks Gym & Spa",
     "type": "Gym",
     "area": "Delhi",
@@ -921,7 +1061,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 19,
+    "id": 5729492883,
+    "lat": 28.5352213,
+    "lon": 77.2105429,
     "name": "Fitwyse",
     "type": "Gym",
     "area": "Delhi",
@@ -934,7 +1076,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 104,
+    "id": 12525641146,
+    "lat": 28.5874338,
+    "lon": 77.0712619,
     "name": "Flex Appeal Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -947,7 +1091,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 99,
+    "id": 12208722061,
+    "lat": 28.5688418,
+    "lon": 77.2473943,
     "name": "Fluid",
     "type": "Gym",
     "area": "Delhi",
@@ -960,7 +1106,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 89,
+    "id": 11914760035,
+    "lat": 28.6286792,
+    "lon": 77.2767576,
     "name": "Focus Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -973,7 +1121,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 35,
+    "id": 7173886979,
+    "lat": 28.5006252,
+    "lon": 77.1963474,
     "name": "Force Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -986,7 +1136,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 199,
+    "id": 1409410903,
+    "lat": 28.6845399,
+    "lon": 77.2133786,
     "name": "Francis Monk Gymnasium",
     "type": "Gym",
     "area": "Delhi",
@@ -999,7 +1151,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 56,
+    "id": 10960137305,
+    "lat": 28.7409976,
+    "lon": 77.1328952,
     "name": "g for gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1012,7 +1166,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 106,
+    "id": 12640918031,
+    "lat": 28.6230553,
+    "lon": 77.2914626,
     "name": "Gabbar Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -1025,7 +1181,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 13,
+    "id": 5258043556,
+    "lat": 28.5405577,
+    "lon": 77.212576,
     "name": "Get Fit Studio",
     "type": "Gym",
     "area": "Delhi",
@@ -1038,7 +1196,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 176,
+    "id": 350511372,
+    "lat": 28.5249044,
+    "lon": 77.1546055,
     "name": "GK Fitness by Gagan Kohli",
     "type": "Gym",
     "area": "New Delhi",
@@ -1051,7 +1211,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 6,
+    "id": 4212577537,
+    "lat": 28.5119075,
+    "lon": 77.0391425,
     "name": "Gold's Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1064,7 +1226,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 18,
+    "id": 5531704183,
+    "lat": 28.673022,
+    "lon": 77.330432,
     "name": "Golden Eye Custom",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1077,7 +1241,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 194,
+    "id": 1360690125,
+    "lat": 28.6893224,
+    "lon": 77.3434246,
     "name": "gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1090,7 +1256,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 170,
+    "id": 290787052,
+    "lat": 28.6323956,
+    "lon": 77.1136522,
     "name": "Hari Nagar Sports Complex",
     "type": "Activity Centre",
     "area": "Beri Wala Bagh",
@@ -1103,7 +1271,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 41,
+    "id": 9041105463,
+    "lat": 28.6220322,
+    "lon": 77.2939735,
     "name": "Health India",
     "type": "Gym",
     "area": "Delhi",
@@ -1116,7 +1286,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 70,
+    "id": 11583984569,
+    "lat": 28.7131917,
+    "lon": 77.1380825,
     "name": "Her Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -1129,7 +1301,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 132,
+    "id": 13626341001,
+    "lat": 28.689567,
+    "lon": 76.944037,
     "name": "Hind Kesari Krishan Akhada",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1142,7 +1316,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 36,
+    "id": 7184265028,
+    "lat": 28.4984567,
+    "lon": 77.1896933,
     "name": "Hurricane's Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1155,7 +1331,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 59,
+    "id": 11022899404,
+    "lat": 28.7163194,
+    "lon": 77.1739672,
     "name": "Hustle 365 Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1168,7 +1346,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 156,
+    "id": 153968114,
+    "lat": 28.6316733,
+    "lon": 77.2501635,
     "name": "Indira Gandhi Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1181,7 +1361,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 192,
+    "id": 1186488778,
+    "lat": 28.6642168,
+    "lon": 77.2990349,
     "name": "Indoor Sports complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1194,7 +1376,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 181,
+    "id": 355404319,
+    "lat": 28.6919674,
+    "lon": 77.2131983,
     "name": "Indoor Stadium",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1207,7 +1391,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 205,
+    "id": 1497987904,
+    "lat": 28.5000214,
+    "lon": 77.2463183,
     "name": "Iron Culture Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1220,7 +1406,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 200,
+    "id": 1409663979,
+    "lat": 28.514394,
+    "lon": 77.2489207,
     "name": "Jamia Hamdard Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1233,7 +1421,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 161,
+    "id": 252333089,
+    "lat": 28.5625059,
+    "lon": 77.2790718,
     "name": "JMI University Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1246,7 +1436,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 74,
+    "id": 11696900665,
+    "lat": 28.5846716,
+    "lon": 77.3373011,
     "name": "JVCC Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1259,7 +1451,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 197,
+    "id": 1387490382,
+    "lat": 28.6210118,
+    "lon": 76.928419,
     "name": "Kair Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1272,7 +1466,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 142,
+    "id": 14070731117,
+    "lat": 28.7084233,
+    "lon": 77.1851023,
     "name": "Kaizen.Fit",
     "type": "Gym",
     "area": "Delhi",
@@ -1285,7 +1481,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 2,
+    "id": 574533684,
+    "lat": 28.4285695,
+    "lon": 77.057809,
     "name": "KNIGHTX FITNESS",
     "type": "Gym",
     "area": "Gurgaon",
@@ -1298,7 +1496,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 76,
+    "id": 11696961747,
+    "lat": 28.5896977,
+    "lon": 77.3481928,
     "name": "KV GYM",
     "type": "Gym",
     "area": "Delhi",
@@ -1311,7 +1511,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 105,
+    "id": 12548074467,
+    "lat": 28.587757,
+    "lon": 77.0712961,
     "name": "Lifetime Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -1324,7 +1526,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 85,
+    "id": 11813679359,
+    "lat": 28.5880413,
+    "lon": 77.1687815,
     "name": "M Fit Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1337,7 +1541,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 86,
+    "id": 11813709469,
+    "lat": 28.5880499,
+    "lon": 77.167839,
     "name": "M-Fit Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1352,7 +1558,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 90,
+    "id": 11914850901,
+    "lat": 28.6310159,
+    "lon": 77.2777956,
     "name": "MA Unisex Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1365,7 +1573,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 148,
+    "id": 78154575,
+    "lat": 28.6838075,
+    "lon": 77.1668985,
     "name": "Major Dhyan Chand Sports complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1378,7 +1588,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 7,
+    "id": 4212577543,
+    "lat": 28.5188182,
+    "lon": 77.0385931,
     "name": "Maple country club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1391,7 +1603,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 186,
+    "id": 849688260,
+    "lat": 28.7121485,
+    "lon": 77.1367637,
     "name": "MCD Pool Prashant Vihar",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1404,7 +1618,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 193,
+    "id": 1257188606,
+    "lat": 28.5112521,
+    "lon": 77.1089886,
     "name": "MK Yoga classes",
     "type": "Yoga Studio",
     "area": "Delhi",
@@ -1417,7 +1633,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 92,
+    "id": 11917138775,
+    "lat": 28.7319184,
+    "lon": 77.0878202,
     "name": "MN Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -1430,7 +1648,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 136,
+    "id": 13920892481,
+    "lat": 28.7147926,
+    "lon": 77.216116,
     "name": "Mogli Fitness Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1443,7 +1663,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 131,
+    "id": 13612096014,
+    "lat": 28.6064795,
+    "lon": 77.2950786,
     "name": "Moltom The Fitness Lounge",
     "type": "Gym",
     "area": "Delhi",
@@ -1456,7 +1678,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 44,
+    "id": 10015351979,
+    "lat": 28.6894333,
+    "lon": 77.271058,
     "name": "muscle & fitness zone",
     "type": "Gym",
     "area": "new delhi",
@@ -1469,7 +1693,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 28,
+    "id": 6207395595,
+    "lat": 28.5090199,
+    "lon": 77.2020165,
     "name": "Musclemania",
     "type": "Gym",
     "area": "Delhi",
@@ -1482,7 +1708,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 133,
+    "id": 13811229601,
+    "lat": 28.7140792,
+    "lon": 77.1295213,
     "name": "My Fitness Destination",
     "type": "Gym",
     "area": "Delhi",
@@ -1495,7 +1723,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 110,
+    "id": 12870701068,
+    "lat": 28.6462417,
+    "lon": 77.1173242,
     "name": "Mytime  Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -1508,7 +1738,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 5,
+    "id": 3424239856,
+    "lat": 28.6020328,
+    "lon": 77.2386286,
     "name": "NDMC Gymnasium",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1521,7 +1753,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 155,
+    "id": 144068828,
+    "lat": 28.4564228,
+    "lon": 77.0300031,
     "name": "Nehru Stadium",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1534,7 +1768,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 159,
+    "id": 172891008,
+    "lat": 28.5415803,
+    "lon": 77.2907348,
     "name": "Netaji Subhash Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1547,7 +1783,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 147,
+    "id": 70534918,
+    "lat": 28.5898761,
+    "lon": 77.3404775,
     "name": "Noida Sports Stadium",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1560,7 +1798,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 139,
+    "id": 13945108456,
+    "lat": 28.6380713,
+    "lon": 77.2951744,
     "name": "Occult MMA",
     "type": "Gym",
     "area": "Delhi",
@@ -1573,7 +1813,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 34,
+    "id": 6968892432,
+    "lat": 28.5785332,
+    "lon": 77.2412459,
     "name": "Odin Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -1586,7 +1828,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 174,
+    "id": 332454890,
+    "lat": 28.5276959,
+    "lon": 77.2458702,
     "name": "Olympia Gym",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1599,7 +1843,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 113,
+    "id": 12997344696,
+    "lat": 28.6446895,
+    "lon": 77.3384253,
     "name": "Oxination Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -1612,7 +1858,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 128,
+    "id": 13566176440,
+    "lat": 28.7059812,
+    "lon": 77.1900262,
     "name": "Ozone Studio",
     "type": "Gym",
     "area": "Delhi",
@@ -1625,7 +1873,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 190,
+    "id": 1151248646,
+    "lat": 28.560392,
+    "lon": 77.2334614,
     "name": "Pacific Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1638,7 +1888,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 162,
+    "id": 262891103,
+    "lat": 28.6742933,
+    "lon": 77.1085345,
     "name": "Paschim Vihar Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1651,7 +1903,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 27,
+    "id": 6152750629,
+    "lat": 28.5200545,
+    "lon": 77.2035767,
     "name": "Planet Ultrafit",
     "type": "Gym",
     "area": "Delhi",
@@ -1664,7 +1918,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 96,
+    "id": 12068146297,
+    "lat": 28.5534965,
+    "lon": 77.1944073,
     "name": "Play Laser Tag",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1677,7 +1933,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 129,
+    "id": 13612030896,
+    "lat": 28.6065018,
+    "lon": 77.295029,
     "name": "POL Fitness Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1690,7 +1948,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 191,
+    "id": 1171502801,
+    "lat": 28.7181177,
+    "lon": 77.1794491,
     "name": "Poornchand Swimming Pool",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1703,7 +1963,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 185,
+    "id": 693909448,
+    "lat": 28.68835,
+    "lon": 77.3143363,
     "name": "Poorvi Delhi Khel Parisar",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1716,7 +1978,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 163,
+    "id": 262923547,
+    "lat": 28.6659562,
+    "lon": 77.1314804,
     "name": "Punjabi Bagh Club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1729,7 +1993,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 93,
+    "id": 11917140131,
+    "lat": 28.7315718,
+    "lon": 77.087548,
     "name": "Push Up Gym & Spa",
     "type": "Gym",
     "area": "Delhi",
@@ -1742,7 +2008,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 100,
+    "id": 12208840339,
+    "lat": 28.5684118,
+    "lon": 77.2458256,
     "name": "Rainbow Health and Fitness Shoppee",
     "type": "Gym",
     "area": "Delhi",
@@ -1757,7 +2025,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 149,
+    "id": 78480663,
+    "lat": 28.6973075,
+    "lon": 77.1496219,
     "name": "Rashtriya Swabhimaan Khel Parisar",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1770,7 +2040,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 108,
+    "id": 12800077905,
+    "lat": 28.5535518,
+    "lon": 77.2406916,
     "name": "Rati's",
     "type": "Gym",
     "area": "Delhi",
@@ -1783,7 +2055,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 182,
+    "id": 402325762,
+    "lat": 28.5669533,
+    "lon": 77.3417261,
     "name": "recreational park",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1796,7 +2070,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 138,
+    "id": 13942437675,
+    "lat": 28.5705022,
+    "lon": 77.2180992,
     "name": "REPPP Vamoss",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1809,7 +2085,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 114,
+    "id": 13110027580,
+    "lat": 28.6824422,
+    "lon": 77.2000055,
     "name": "Road2Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -1822,7 +2100,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 150,
+    "id": 78595552,
+    "lat": 28.7115131,
+    "lon": 77.1297179,
     "name": "Rohini Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1835,7 +2115,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 169,
+    "id": 290559811,
+    "lat": 28.6744551,
+    "lon": 77.1953592,
     "name": "Roshanara Club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1848,7 +2130,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 84,
+    "id": 11812625871,
+    "lat": 28.71434,
+    "lon": 77.2109647,
     "name": "RP Fitness Center",
     "type": "Gym",
     "area": "Delhi",
@@ -1861,7 +2145,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 120,
+    "id": 13227545052,
+    "lat": 28.5930311,
+    "lon": 77.0463578,
     "name": "RS FITNESS",
     "type": "Gym",
     "area": "Delhi",
@@ -1874,7 +2160,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 32,
+    "id": 6472488317,
+    "lat": 28.4077974,
+    "lon": 77.0454033,
     "name": "Ryder Sports Academy",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1887,7 +2175,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 158,
+    "id": 162249291,
+    "lat": 28.5253466,
+    "lon": 77.2122244,
     "name": "Saket Sports Complex",
     "type": "Activity Centre",
     "area": "Saket",
@@ -1900,7 +2190,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 57,
+    "id": 10960475397,
+    "lat": 28.5659578,
+    "lon": 77.282348,
     "name": "Shapes Of You Fitness Club",
     "type": "Gym",
     "area": "Jamia Nagar, Okhla, Delhi",
@@ -1913,7 +2205,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 111,
+    "id": 12896559017,
+    "lat": 28.6329669,
+    "lon": 77.2086546,
     "name": "Shark's Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -1926,7 +2220,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 171,
+    "id": 292045084,
+    "lat": 28.6554288,
+    "lon": 77.1230589,
     "name": "Shivaji College",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1939,7 +2235,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 203,
+    "id": 1466963100,
+    "lat": 28.6254849,
+    "lon": 77.1093618,
     "name": "Shri Shyam Baba Khatu Wale Mini Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1952,7 +2250,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 179,
+    "id": 351126831,
+    "lat": 28.6855191,
+    "lon": 77.3453857,
     "name": "shyam sports",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1965,7 +2265,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 151,
+    "id": 80513396,
+    "lat": 28.5518217,
+    "lon": 77.2191807,
     "name": "Siri Fort Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1978,7 +2280,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 198,
+    "id": 1393745078,
+    "lat": 28.5530797,
+    "lon": 77.2209136,
     "name": "Siri Fort Squash and Badminton Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -1991,7 +2295,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 97,
+    "id": 12068146324,
+    "lat": 28.5539557,
+    "lon": 77.194468,
     "name": "SK-27",
     "type": "Gym",
     "area": "Delhi",
@@ -2004,7 +2310,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 83,
+    "id": 11747878634,
+    "lat": 28.5501748,
+    "lon": 77.2357452,
     "name": "SK-27 Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2017,7 +2325,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 103,
+    "id": 12488348506,
+    "lat": 28.6115313,
+    "lon": 77.0308894,
     "name": "Skywalk Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2030,7 +2340,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 8,
+    "id": 4236919989,
+    "lat": 28.5415809,
+    "lon": 77.2400915,
     "name": "Snap Fitness Gym Delhi",
     "type": "Gym",
     "area": "Delhi",
@@ -2043,7 +2355,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 68,
+    "id": 11388851654,
+    "lat": 28.729631,
+    "lon": 77.1160047,
     "name": "Snip Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -2056,7 +2370,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 141,
+    "id": 14051505098,
+    "lat": 28.722502,
+    "lon": 77.0794571,
     "name": "SOHO",
     "type": "Gym",
     "area": "New Delhi",
@@ -2069,7 +2385,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 64,
+    "id": 11091626089,
+    "lat": 28.4604718,
+    "lon": 77.0781332,
     "name": "Sparta Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2082,7 +2400,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 188,
+    "id": 984175157,
+    "lat": 28.6091496,
+    "lon": 77.0410279,
     "name": "Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2095,7 +2415,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 180,
+    "id": 351797801,
+    "lat": 28.6124711,
+    "lon": 76.9938703,
     "name": "Squat Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2108,7 +2430,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 134,
+    "id": 13815887148,
+    "lat": 28.5405486,
+    "lon": 77.2445682,
     "name": "SRV Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -2121,7 +2445,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 21,
+    "id": 5754579722,
+    "lat": 28.5506768,
+    "lon": 77.2450567,
     "name": "Stamina Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2134,7 +2460,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 140,
+    "id": 13948424205,
+    "lat": 28.7131555,
+    "lon": 77.2160065,
     "name": "Star Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -2147,7 +2475,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 25,
+    "id": 6150155471,
+    "lat": 28.5178234,
+    "lon": 77.2061536,
     "name": "Steel Muscle",
     "type": "Gym",
     "area": "Delhi",
@@ -2160,7 +2490,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 4,
+    "id": 3008661514,
+    "lat": 28.7553062,
+    "lon": 77.1343328,
     "name": "Step Up Gym",
     "type": "Activity Centre",
     "area": "Hira Colony, Siraspur, Delhi",
@@ -2173,7 +2505,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 98,
+    "id": 12087732914,
+    "lat": 28.6203821,
+    "lon": 77.039237,
     "name": "Strength and Fitness Fitclub By Hencie",
     "type": "Gym",
     "area": "New Delhi",
@@ -2186,7 +2520,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 40,
+    "id": 8812965172,
+    "lat": 28.6103864,
+    "lon": 77.0393099,
     "name": "Student Activity Centre",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2201,7 +2537,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 71,
+    "id": 11688160148,
+    "lat": 28.5167759,
+    "lon": 77.1036278,
     "name": "Superfit Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2214,7 +2552,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 196,
+    "id": 1384231633,
+    "lat": 28.5673684,
+    "lon": 77.2516157,
     "name": "Swami Dayanand Saraswati Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2227,7 +2567,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 187,
+    "id": 860250854,
+    "lat": 28.6963731,
+    "lon": 77.1186211,
     "name": "swimming pool",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2240,7 +2582,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 24,
+    "id": 6115750095,
+    "lat": 28.568246,
+    "lon": 77.2470384,
     "name": "Switch Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -2253,7 +2597,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 137,
+    "id": 13942437655,
+    "lat": 28.5706046,
+    "lon": 77.2182065,
     "name": "The Box",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2266,7 +2612,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 79,
+    "id": 11697873766,
+    "lat": 28.602304,
+    "lon": 77.0584113,
     "name": "The fitness street",
     "type": "Gym",
     "area": "Delhi",
@@ -2279,7 +2627,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 127,
+    "id": 13566158701,
+    "lat": 28.7042161,
+    "lon": 77.189669,
     "name": "The Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2292,7 +2642,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 126,
+    "id": 13566127609,
+    "lat": 28.7042329,
+    "lon": 77.1895677,
     "name": "The Gym Health Planet",
     "type": "Gym",
     "area": "Delhi",
@@ -2305,7 +2657,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 52,
+    "id": 10886146417,
+    "lat": 28.6277752,
+    "lon": 77.278542,
     "name": "The Inferno Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -2318,7 +2672,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 204,
+    "id": 1497987899,
+    "lat": 28.4969369,
+    "lon": 77.2491538,
     "name": "The Iron Man gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2331,7 +2687,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 130,
+    "id": 13612030899,
+    "lat": 28.6066308,
+    "lon": 77.2948037,
     "name": "The Iron Pumpers Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2344,7 +2702,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 73,
+    "id": 11690613209,
+    "lat": 28.6880961,
+    "lon": 77.2918479,
     "name": "THE MUSCLE HOUSE",
     "type": "Gym",
     "area": "Delhi",
@@ -2357,7 +2717,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 50,
+    "id": 10741340149,
+    "lat": 28.7216787,
+    "lon": 77.1676517,
     "name": "The New Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2370,7 +2732,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 146,
+    "id": 43848883,
+    "lat": 28.4600298,
+    "lon": 77.0765468,
     "name": "The Palms Town & Country Club",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2385,7 +2749,9 @@ export const realPlaces = [
     ]
   },
   {
-    "id": 33,
+    "id": 6805870384,
+    "lat": 28.5674673,
+    "lon": 77.2477385,
     "name": "The Power Zone",
     "type": "Gym",
     "area": "Delhi",
@@ -2398,7 +2764,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 16,
+    "id": 5343145521,
+    "lat": 28.7366878,
+    "lon": 77.1250918,
     "name": "The Rock Gym",
     "type": "Gym",
     "area": "Delhi",
@@ -2411,7 +2779,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 168,
+    "id": 287658620,
+    "lat": 28.5767668,
+    "lon": 77.2175065,
     "name": "Thyagaraj Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2424,7 +2794,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 116,
+    "id": 13110127598,
+    "lat": 28.6828952,
+    "lon": 77.2066049,
     "name": "Time to Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -2437,7 +2809,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 95,
+    "id": 11982474359,
+    "lat": 28.7020682,
+    "lon": 77.2721672,
     "name": "Tone Zone",
     "type": "Gym",
     "area": "Delhi",
@@ -2450,7 +2824,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 45,
+    "id": 10222922301,
+    "lat": 28.5334465,
+    "lon": 77.3096123,
     "name": "Unicore Fitness",
     "type": "Gym",
     "area": "New Delhi",
@@ -2463,7 +2839,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 109,
+    "id": 12828356218,
+    "lat": 28.7064379,
+    "lon": 77.1226874,
     "name": "Unique Fitness Forever",
     "type": "Gym",
     "area": "Delhi",
@@ -2476,7 +2854,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 164,
+    "id": 263838866,
+    "lat": 28.6912419,
+    "lon": 77.2137193,
     "name": "University Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2489,7 +2869,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 201,
+    "id": 1421300160,
+    "lat": 28.691026,
+    "lon": 77.2141517,
     "name": "University Stadium",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2502,7 +2884,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 69,
+    "id": 11419903795,
+    "lat": 28.7370195,
+    "lon": 77.1100495,
     "name": "V FNN",
     "type": "Gym",
     "area": "Delhi",
@@ -2515,7 +2899,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 145,
+    "id": 26585444,
+    "lat": 28.513227,
+    "lon": 77.1618575,
     "name": "Vasant Kunj Sports Complex Part 1",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2528,7 +2914,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 195,
+    "id": 1384020479,
+    "lat": 28.5060763,
+    "lon": 77.1636929,
     "name": "Vasant Kunj Sports Complex Part 2",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2541,7 +2929,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 172,
+    "id": 297693821,
+    "lat": 28.5270625,
+    "lon": 77.1593611,
     "name": "Vasant Kunj Sports Complex Part 3",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2554,7 +2944,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 117,
+    "id": 13110159225,
+    "lat": 28.6833644,
+    "lon": 77.2057301,
     "name": "Vault",
     "type": "Gym",
     "area": "Delhi",
@@ -2567,7 +2959,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 124,
+    "id": 13334052244,
+    "lat": 28.6986919,
+    "lon": 77.3343383,
     "name": "Veer Fitness Club",
     "type": "Gym",
     "area": "Delhi",
@@ -2580,7 +2974,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 94,
+    "id": 11929097637,
+    "lat": 28.4531267,
+    "lon": 77.0824208,
     "name": "Viva Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -2593,7 +2989,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 67,
+    "id": 11265917305,
+    "lat": 28.5479508,
+    "lon": 77.2047351,
     "name": "Vivekananda yoga Anusandhana samsthana",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2606,7 +3004,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 20,
+    "id": 5729493637,
+    "lat": 28.535558,
+    "lon": 77.2103575,
     "name": "Workout Studio",
     "type": "Gym",
     "area": "Delhi",
@@ -2619,7 +3019,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 54,
+    "id": 10901623634,
+    "lat": 28.7425183,
+    "lon": 77.1321598,
     "name": "Xpose Fitness",
     "type": "Gym",
     "area": "Delhi",
@@ -2632,7 +3034,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 60,
+    "id": 11048957653,
+    "lat": 28.742759,
+    "lon": 77.1677752,
     "name": "Xtreme Fit Gym",
     "type": "Gym",
     "area": "Bhalswa Dairy",
@@ -2645,7 +3049,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 167,
+    "id": 287418434,
+    "lat": 28.6631116,
+    "lon": 77.3119008,
     "name": "Yamuna Sports Complex",
     "type": "Activity Centre",
     "area": "Delhi",
@@ -2658,7 +3064,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 125,
+    "id": 13566098540,
+    "lat": 28.7056976,
+    "lon": 77.1906983,
     "name": "Yoga Plus",
     "type": "Gym",
     "area": "Delhi",
@@ -2671,7 +3079,9 @@ export const realPlaces = [
     "amenities": []
   },
   {
-    "id": 37,
+    "id": 8172739117,
+    "lat": 28.6807243,
+    "lon": 77.1771536,
     "name": "जगर्नॉट फ़िट्नेस क्लब",
     "type": "Gym",
     "area": "Delhi",

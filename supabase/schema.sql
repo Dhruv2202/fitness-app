@@ -61,3 +61,7 @@ create policy "Users can view their own clicks"
 create policy "Anyone can record a click"
   on product_clicks for insert
   with check (user_id is null or auth.uid() = user_id);
+
+-- Added later: place ids now come from OpenStreetMap, whose ids are far
+-- larger than a 4-byte integer can hold, so widen the column to bigint.
+alter table favourites alter column place_id type bigint;

@@ -70,11 +70,20 @@ for (const el of json.elements) {
   const tags = el.tags || {};
   if (!tags.name) continue;
   if (seen.has(tags.name)) continue;
+
+  const lat = el.lat ?? el.center?.lat ?? null;
+  const lon = el.lon ?? el.center?.lon ?? null;
+  if (lat === null || lon === null) continue;
+
   seen.add(tags.name);
 
   const type = typeFor(tags);
   places.push({
-    id: places.length + 1,
+    // OpenStreetMap's own id: stable across refreshes, so saved
+    // favourites keep pointing at the same place.
+    id: el.id,
+    lat,
+    lon,
     name: tags.name,
     type,
     area: tags["addr:suburb"] || tags["addr:city"] || "Delhi",
