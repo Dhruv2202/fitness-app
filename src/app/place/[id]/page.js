@@ -3,6 +3,12 @@ import { realPlaces } from "@/data/realPlaces";
 import FavouriteButton from "@/components/FavouriteButton";
 import { createClient } from "@/lib/supabase/server";
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const place = realPlaces.find((g) => String(g.id) === id);
+  return { title: place?.name ?? "Place not found" };
+}
+
 export default async function PlaceDetailPage({ params }) {
   const { id } = await params;
   const place = realPlaces.find((g) => String(g.id) === id);

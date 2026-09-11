@@ -12,6 +12,12 @@ function formatDate(dateStr) {
   });
 }
 
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const event = sampleEvents.find((e) => String(e.id) === id);
+  return { title: event?.name ?? "Event not found" };
+}
+
 export default async function EventDetailPage({ params }) {
   const { id } = await params;
   const event = sampleEvents.find((e) => String(e.id) === id);

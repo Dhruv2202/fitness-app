@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Fitness Delhi",
+  title: {
+    template: "%s · Fitness Delhi",
+    default: "Fitness Delhi",
+  },
   description: "Gyms, events and fitness gear in Delhi",
+};
+
+export const viewport = {
+  themeColor: "#059669",
 };
 
 export default function RootLayout({ children }) {
