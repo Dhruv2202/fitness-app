@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -18,27 +16,43 @@ export default function LoginPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
       email,
-      password,
-    });
+      {
+        redirectTo: `${window.location.origin}/auth/callback?next=/reset-password`,
+      }
+    );
 
     setLoading(false);
 
-    if (signInError) {
-      setError(signInError.message);
+    if (resetError) {
+      setError(resetError.message);
       return;
     }
 
-    router.push("/profile");
-    router.refresh();
+    setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <div className="p-4">
+        <h1 className="text-2xl font-bold text-neutral-900">Check your email</h1>
+        <p className="mt-2 text-sm text-neutral-600">
+          If an account exists for {email}, we've sent a link to reset your
+          password.
+        </p>
+        <Link href="/login" className="mt-4 block text-sm text-emerald-600">
+          ← Back to log in
+        </Link>
+      </div>
+    );
   }
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Log in</h1>
+      <h1 className="text-2xl font-bold text-neutral-900">Reset password</h1>
       <p className="mt-1 text-sm text-neutral-500">
-        Welcome back.
+        Enter your email and we'll send you a reset link.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
@@ -50,14 +64,6 @@ export default function LoginPage() {
           placeholder="Email"
           className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-500"
         />
-        <input
-          type="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-500"
-        />
 
         {error && <p className="text-sm text-rose-600">{error}</p>}
 
@@ -66,23 +72,13 @@ export default function LoginPage() {
           disabled={loading}
           className="mt-1 rounded-full bg-emerald-600 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
         >
-          {loading ? "Logging in..." : "Log in"}
+          {loading ? "Sending..." : "Send reset link"}
         </button>
       </form>
 
-      <Link
-        href="/forgot-password"
-        className="mt-3 block text-center text-sm text-neutral-500"
-      >
-        Forgot password?
+      <Link href="/login" className="mt-4 block text-center text-sm text-neutral-500">
+        ← Back to log in
       </Link>
-
-      <p className="mt-4 text-center text-sm text-neutral-500">
-        Don't have an account?{" "}
-        <Link href="/signup" className="font-semibold text-emerald-600">
-          Sign up
-        </Link>
-      </p>
     </div>
   );
 }
