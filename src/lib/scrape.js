@@ -155,6 +155,53 @@ function businessFromJsonLd(html) {
   return {};
 }
 
+function textOf(html) {
+  return html
+    .replace(/<(script|style|noscript)[\s\S]*?<\/\1>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ");
+}
+
+// Hardly any gym site publishes structured business data, but most put a
+// phone number and an address somewhere on the page. These are the fallbacks.
+function phoneFromPage(html) {
+  // A tel: link is the strongest signal — it's a number someone meant to be called.
+  const tel = html.match(/href=["']tel:([^"']+)["']/i)?.[1];
+  if (tel) {
+    const digits = tel.replace(/[^\d+]/g, "");
+    if (digits.replace(/\D/g, "").length >= 10) return digits;
+  }
+
+  const text = textOf(html);
+  // Indian mobile numbers start 6-9; require a +91 or a nearby cue word so we
+  // don't pick up a random ten digit number.
+  const cued = text.match(
+    /(?:phone|call|contact|mobile|whatsapp|tel)[^0-9+]{0,20}((?:\+?91[\s-]?)?[6-9]\d{4}[\s-]?\d{5})/i
+  );
+  if (cued) return cued[1].replace(/\s|-/g, "");
+
+  const plus91 = text.match(/\+91[\s-]?([6-9]\d{4}[\s-]?\d{5})/);
+  if (plus91) return `+91${plus91[1].replace(/\s|-/g, "")}`;
+
+  // No cue word and no country code: only trust it when the page contains a
+  // single candidate, otherwise we'd be picking one number out of many.
+  const candidates = new Set(
+    (text.match(/(?<!\d)[6-9]\d{9}(?!\d)/g) ?? []).map((n) => n)
+  );
+  return candidates.size === 1 ? [...candidates][0] : null;
+}
+
+function addressFromPage(html) {
+  const text = textOf(html);
+  // An Indian postal code anchors the line that is most likely an address.
+  const match = text.match(/([A-Z][^.;|]{15,110}?\b\d{6}\b)/);
+  if (!match) return null;
+
+  const candidate = match[1].trim();
+  return /\d/.test(candidate) ? candidate : null;
+}
+
 export async function fetchPlaceMeta(rawUrl) {
   const { html, host } = await loadPage(rawUrl);
   const found = businessFromJsonLd(html);
@@ -168,9 +215,9 @@ export async function fetchPlaceMeta(rawUrl) {
       metaContent(html, "og:title"),
       title ? decode(title.trim()) : null
     ),
-    address: found.address ?? null,
+    address: firstOf(found.address, addressFromPage(html)),
     area: found.area ?? null,
-    phone: firstOf(found.phone, null),
+    phone: firstOf(found.phone, phoneFromPage(html)),
     timings: found.timings ?? null,
     image: firstOf(found.image, metaContent(html, "og:image")),
     lat: Number.isFinite(found.lat) ? found.lat : null,
