@@ -59,12 +59,20 @@ export default async function AdminPage() {
         <h2 className="text-sm font-semibold text-ink">
           Shop products ({products.length})
         </h2>
-        <Link
-          href="/admin/products/new"
-          className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-brand-ink"
-        >
-          + Add product
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/products/import"
+            className="rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-ink"
+          >
+            ⬆ Several
+          </Link>
+          <Link
+            href="/admin/products/new"
+            className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-brand-ink"
+          >
+            + Add product
+          </Link>
+        </div>
       </div>
 
       <div className="mt-2 flex flex-col gap-2">

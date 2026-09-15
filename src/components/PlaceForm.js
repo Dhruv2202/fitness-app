@@ -1,21 +1,25 @@
+"use client";
+
+import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
 import PhotoUpload from "@/components/PhotoUpload";
 import SubmitButton from "@/components/SubmitButton";
 import DeleteButton from "@/components/DeleteButton";
-import { savePlace, deletePlace } from "@/app/admin/actions";
+import { savePlace, deletePlace, lookupMapsLink } from "@/app/admin/actions";
 import { PLACE_TYPES } from "@/lib/icons";
 
 const inputClass =
-  "mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm outline-none focus:border-brand";
+  "mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm text-ink outline-none placeholder:text-muted focus:border-brand";
 
-function Field({ label, name, defaultValue, type = "text", placeholder }) {
+function Field({ label, name, value, onChange, type = "text", placeholder }) {
   return (
-    <label className="block">
+    <label className="block flex-1">
       <span className="text-xs font-semibold text-ink">{label}</span>
       <input
         type={type}
         name={name}
-        defaultValue={defaultValue ?? ""}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={inputClass}
       />
@@ -24,8 +28,32 @@ function Field({ label, name, defaultValue, type = "text", placeholder }) {
 }
 
 export default function PlaceForm({ place }) {
+  const [name, setName] = useState(place?.name ?? "");
+  const [area, setArea] = useState(place?.area ?? "");
+  const [address, setAddress] = useState(place?.address ?? "");
+  const [phone, setPhone] = useState(place?.phone ?? "");
+  const [fee, setFee] = useState(place?.fee ?? "");
+  const [timings, setTimings] = useState(place?.timings ?? "");
+  const [rating, setRating] = useState(place?.rating ?? "");
+  const [amenities, setAmenities] = useState(
+    place?.amenities?.join(", ") ?? ""
+  );
+  const [lat, setLat] = useState(place?.lat ?? "");
+  const [lon, setLon] = useState(place?.lon ?? "");
+
+  const [state, lookupAction, looking] = useActionState(lookupMapsLink, {});
+
+  useEffect(() => {
+    const found = state?.place;
+    if (!found) return;
+    if (found.lat !== null) setLat(String(found.lat));
+    if (found.lon !== null) setLon(String(found.lon));
+    // Only fill the name if it's still blank, so an edit isn't overwritten.
+    if (found.name) setName((current) => current || found.name);
+  }, [state]);
+
   return (
-    <div className="p-4">
+    <div className="px-4 pb-8 pt-6">
       <Link href="/admin" className="text-sm text-muted">
         ← Back to admin
       </Link>
@@ -34,10 +62,44 @@ export default function PlaceForm({ place }) {
         {place ? "Edit place" : "Add a place"}
       </h1>
 
+      <form
+        action={lookupAction}
+        className="card-shadow mt-4 rounded-2xl border border-line bg-surface p-3"
+      >
+        <label className="block text-xs font-semibold text-ink">
+          Paste a Google Maps link
+        </label>
+        <p className="mt-0.5 text-xs text-muted">
+          Find the place in Google Maps, tap Share, and paste the link. Fills in
+          the coordinates for you.
+        </p>
+        <input
+          type="text"
+          name="maps_url"
+          placeholder="https://maps.app.goo.gl/..."
+          className={inputClass}
+        />
+        <button
+          type="submit"
+          disabled={looking}
+          className="press mt-2 w-full rounded-xl bg-ink py-2 text-sm font-semibold text-app disabled:opacity-60"
+        >
+          {looking ? "Reading link..." : "Get location"}
+        </button>
+        {state?.error && (
+          <p className="mt-2 text-xs text-rose-500">{state.error}</p>
+        )}
+        {state?.place && !state.error && (
+          <p className="mt-2 text-xs text-brand">
+            Location found — filled in below.
+          </p>
+        )}
+      </form>
+
       <form action={savePlace} className="mt-4 flex flex-col gap-3">
         {place && <input type="hidden" name="id" value={place.id} />}
 
-        <Field label="Name *" name="name" defaultValue={place?.name} />
+        <Field label="Name *" name="name" value={name} onChange={setName} />
 
         <label className="block">
           <span className="text-xs font-semibold text-ink">Type</span>
@@ -59,60 +121,56 @@ export default function PlaceForm({ place }) {
         <Field
           label="Area"
           name="area"
-          defaultValue={place?.area}
+          value={area}
+          onChange={setArea}
           placeholder="e.g. Saket"
         />
-        <Field label="Address" name="address" defaultValue={place?.address} />
+        <Field
+          label="Address"
+          name="address"
+          value={address}
+          onChange={setAddress}
+        />
         <Field
           label="Phone"
           name="phone"
-          defaultValue={place?.phone}
+          value={phone}
+          onChange={setPhone}
           placeholder="+919810012345"
         />
         <Field
           label="Membership fee"
           name="fee"
-          defaultValue={place?.fee}
+          value={fee}
+          onChange={setFee}
           placeholder="₹2,000/mo"
         />
         <Field
           label="Timings"
           name="timings"
-          defaultValue={place?.timings}
+          value={timings}
+          onChange={setTimings}
           placeholder="6:00 AM – 10:00 PM, all days"
         />
         <Field
           label="Rating (0–5)"
           name="rating"
-          type="number"
-          defaultValue={place?.rating}
+          value={rating}
+          onChange={setRating}
           placeholder="4.5"
         />
         <Field
           label="Amenities (comma separated)"
           name="amenities"
-          defaultValue={place?.amenities?.join(", ")}
+          value={amenities}
+          onChange={setAmenities}
           placeholder="Parking, AC, Locker Rooms"
         />
 
         <div className="flex gap-3">
-          <Field
-            label="Latitude"
-            name="lat"
-            defaultValue={place?.lat}
-            placeholder="28.6315"
-          />
-          <Field
-            label="Longitude"
-            name="lon"
-            defaultValue={place?.lon}
-            placeholder="77.2167"
-          />
+          <Field label="Latitude" name="lat" value={lat} onChange={setLat} />
+          <Field label="Longitude" name="lon" value={lon} onChange={setLon} />
         </div>
-        <p className="text-xs text-muted">
-          Coordinates power the &quot;nearest me&quot; sorting. Find them by
-          right-clicking the spot in Google Maps and copying the numbers.
-        </p>
 
         <SubmitButton
           label={place ? "Save changes" : "Add place"}

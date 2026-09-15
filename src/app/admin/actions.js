@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/admin";
 import { normalizeUrl } from "@/lib/url";
 import { fetchProductMeta } from "@/lib/scrape";
+import { parseMapsUrl, resolveMapsUrl } from "@/lib/maps";
 
 function textOrNull(value) {
   const trimmed = (value ?? "").toString().trim();
@@ -37,6 +38,58 @@ function placeFromForm(formData) {
       ? amenities.split(",").map((a) => a.trim()).filter(Boolean)
       : [],
   };
+}
+
+// Copies a remote image into our own storage. Hotlinking a brand's CDN breaks
+// the moment they move or remove the file.
+async function storeImage(imageUrl) {
+  if (!imageUrl) return null;
+
+  try {
+    const res = await fetch(imageUrl);
+    if (!res.ok) return null;
+
+    const type = res.headers.get("content-type") ?? "image/jpeg";
+    if (!type.startsWith("image/")) return null;
+
+    const extension = type.includes("png")
+      ? "png"
+      : type.includes("webp")
+        ? "webp"
+        : "jpg";
+
+    const supabase = await createClient();
+    const path = `${crypto.randomUUID()}.${extension}`;
+    const { error } = await supabase.storage
+      .from("photos")
+      .upload(path, await res.arrayBuffer(), { contentType: type });
+
+    if (error) return null;
+    return supabase.storage.from("photos").getPublicUrl(path).data.publicUrl;
+  } catch {
+    // A missing image is not worth failing the whole lookup over.
+    return null;
+  }
+}
+
+export async function lookupMapsLink(_prevState, formData) {
+  const admin = await getAdminUser();
+  if (!admin) return { error: "Not authorised" };
+
+  const link = textOrNull(formData.get("maps_url"));
+  if (!link) return { error: "Paste a Google Maps link first" };
+
+  const resolved = await resolveMapsUrl(link);
+  const found = parseMapsUrl(resolved);
+
+  if (found.lat === null) {
+    return {
+      error:
+        "Couldn't find coordinates in that link. Open the place in Google Maps and copy the link from the address bar.",
+    };
+  }
+
+  return { place: found };
 }
 
 export async function savePlace(formData) {
@@ -128,36 +181,70 @@ export async function lookupProduct(_prevState, formData) {
     return { error: e.message };
   }
 
-  // Copy the image into our own storage. Hotlinking a brand's CDN breaks the
-  // moment they move or remove the file.
-  let photoUrl = null;
-  if (meta.image) {
-    try {
-      const res = await fetch(meta.image);
-      if (res.ok) {
-        const type = res.headers.get("content-type") ?? "image/jpeg";
-        const extension = type.includes("png")
-          ? "png"
-          : type.includes("webp")
-            ? "webp"
-            : "jpg";
-        const supabase = await createClient();
-        const path = `${crypto.randomUUID()}.${extension}`;
-        const { error: uploadError } = await supabase.storage
-          .from("photos")
-          .upload(path, await res.arrayBuffer(), { contentType: type });
+  return { product: { ...meta, photo_url: await storeImage(meta.image) } };
+}
 
-        if (!uploadError) {
-          photoUrl = supabase.storage.from("photos").getPublicUrl(path)
-            .data.publicUrl;
-        }
-      }
-    } catch {
-      // A missing image is not worth failing the whole lookup over.
-    }
-  }
+// Kept small so a batch finishes inside the hosting time limit.
+const MAX_BATCH = 8;
 
-  return { product: { ...meta, photo_url: photoUrl } };
+export async function lookupProducts(_prevState, formData) {
+  const admin = await getAdminUser();
+  if (!admin) return { error: "Not authorised" };
+
+  const links = (formData.get("urls") ?? "")
+    .toString()
+    .split(/[\s,]+/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  if (links.length === 0) return { error: "Paste at least one link" };
+
+  const capped = links.slice(0, MAX_BATCH);
+
+  // In parallel, so the wait is the slowest page rather than the sum of them.
+  const settled = await Promise.allSettled(
+    capped.map(async (link) => {
+      const meta = await fetchProductMeta(link);
+      return { ...meta, photo_url: await storeImage(meta.image) };
+    })
+  );
+
+  return {
+    products: settled
+      .map((r, i) => (r.status === "fulfilled" ? r.value : null))
+      .filter(Boolean),
+    failed: settled
+      .map((r, i) => (r.status === "rejected" ? capped[i] : null))
+      .filter(Boolean),
+    skipped: links.length > MAX_BATCH ? links.length - MAX_BATCH : 0,
+  };
+}
+
+export async function importProducts(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const rows = JSON.parse(formData.get("products") ?? "[]");
+  const values = rows
+    .filter((row) => row?.name && row?.brand && row?.buy_url)
+    .map((row) => ({
+      brand: String(row.brand).slice(0, 120),
+      name: String(row.name).slice(0, 250),
+      price: row.price ?? null,
+      buy_url: normalizeUrl(row.buy_url),
+      photo_url: row.photo_url ?? null,
+    }))
+    .filter((row) => row.buy_url);
+
+  if (values.length === 0) throw new Error("Nothing to add");
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("products").insert(values);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/shop");
+  revalidatePath("/admin");
+  redirect("/admin");
 }
 
 export async function saveProduct(formData) {
