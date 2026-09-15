@@ -40,6 +40,23 @@ export async function getAllEvents() {
   return data ?? [];
 }
 
+export async function getProducts() {
+  const supabase = await createClient();
+  const { data } = await supabase.from("products").select("*").order("id");
+  return data ?? [];
+}
+
+export async function getProduct(id) {
+  if (!/^\d+$/.test(id)) return null;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .maybeSingle();
+  return data;
+}
+
 export async function getEvent(id) {
   if (!/^\d+$/.test(id)) return null;
   const supabase = await createClient();

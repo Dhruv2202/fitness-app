@@ -112,6 +112,49 @@ export async function deletePlace(formData) {
   redirect("/admin");
 }
 
+export async function saveProduct(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const id = textOrNull(formData.get("id"));
+  const values = {
+    brand: textOrNull(formData.get("brand")),
+    name: textOrNull(formData.get("name")),
+    price: textOrNull(formData.get("price")),
+    buy_url: textOrNull(formData.get("buy_url")),
+    photo_url: textOrNull(formData.get("photo_url")),
+  };
+
+  if (!values.brand) throw new Error("Brand is required");
+  if (!values.name) throw new Error("Name is required");
+  if (!values.buy_url) throw new Error("Buy link is required");
+
+  const supabase = await createClient();
+  const { error } = id
+    ? await supabase.from("products").update(values).eq("id", id)
+    : await supabase.from("products").insert(values);
+
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/shop");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function deleteProduct(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const id = textOrNull(formData.get("id"));
+  const supabase = await createClient();
+  const { error } = await supabase.from("products").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/shop");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
 export async function saveEvent(formData) {
   const admin = await getAdminUser();
   if (!admin) throw new Error("Not authorised");

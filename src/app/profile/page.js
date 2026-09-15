@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/LogoutButton";
-import { sampleProducts } from "@/data/sampleData";
 import { iconForType } from "@/lib/icons";
 
 function formatClickTime(dateStr) {
@@ -87,9 +86,19 @@ export default async function ProfilePage() {
     .order("clicked_at", { ascending: false })
     .limit(20);
 
+  const clickedIds = [...new Set((clickRows ?? []).map((r) => r.product_id))];
+  const { data: clickedProducts } = clickedIds.length
+    ? await supabase
+        .from("products")
+        .select("id, brand, name")
+        .in("id", clickedIds)
+    : { data: [] };
+
   const clickHistory = (clickRows ?? [])
     .map((row) => {
-      const product = sampleProducts.find((p) => p.id === row.product_id);
+      const product = (clickedProducts ?? []).find(
+        (p) => p.id === row.product_id
+      );
       return product ? { ...product, clickedAt: row.clicked_at } : null;
     })
     .filter(Boolean);
@@ -107,7 +116,7 @@ export default async function ProfilePage() {
           href="/admin"
           className="mt-6 block rounded-xl bg-neutral-900 py-2.5 text-center text-sm font-semibold text-white"
         >
-          ⚙️ Manage places & events
+          ⚙️ Manage content
         </Link>
       )}
 

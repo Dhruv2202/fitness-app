@@ -1,9 +1,9 @@
-import { sampleProducts } from "@/data/sampleData";
 import { createClient } from "@/lib/supabase/server";
+import { getProduct } from "@/lib/data";
 
 export async function GET(request, { params }) {
   const { productId } = await params;
-  const product = sampleProducts.find((p) => String(p.id) === productId);
+  const product = await getProduct(productId);
 
   if (!product) {
     return Response.redirect(new URL("/shop", request.url));
@@ -18,5 +18,5 @@ export async function GET(request, { params }) {
     .from("product_clicks")
     .insert({ user_id: user?.id ?? null, product_id: product.id });
 
-  return Response.redirect(product.buyUrl);
+  return Response.redirect(product.buy_url);
 }
