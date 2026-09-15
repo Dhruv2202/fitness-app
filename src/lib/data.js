@@ -1,14 +1,21 @@
-import { createClient } from "@/lib/supabase/server";
+import { createPublicClient } from "@/lib/supabase/public";
+
+// Only the fields the list actually renders. Fetching every column meant
+// sending roughly four times more data than the cards use.
+const LIST_FIELDS = "id, name, type, area, fee, rating, photo_url, lat, lon";
 
 export async function getPlaces() {
-  const supabase = await createClient();
-  const { data } = await supabase.from("places").select("*").order("name");
+  const supabase = createPublicClient();
+  const { data } = await supabase
+    .from("places")
+    .select(LIST_FIELDS)
+    .order("name");
   return data ?? [];
 }
 
 export async function getPlace(id) {
   if (!/^\d+$/.test(id)) return null;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("places")
     .select("*")
@@ -22,17 +29,17 @@ function today() {
 }
 
 export async function getUpcomingEvents() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("events")
-    .select("*")
+    .select("id, name, event_date, venue, organiser, type, photo_url")
     .gte("event_date", today())
     .order("event_date");
   return data ?? [];
 }
 
 export async function getAllEvents() {
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
     .from("events")
     .select("*")
@@ -40,28 +47,28 @@ export async function getAllEvents() {
   return data ?? [];
 }
 
-export async function getProducts() {
-  const supabase = await createClient();
-  const { data } = await supabase.from("products").select("*").order("id");
-  return data ?? [];
-}
-
-export async function getProduct(id) {
+export async function getEvent(id) {
   if (!/^\d+$/.test(id)) return null;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
-    .from("products")
+    .from("events")
     .select("*")
     .eq("id", id)
     .maybeSingle();
   return data;
 }
 
-export async function getEvent(id) {
+export async function getProducts() {
+  const supabase = createPublicClient();
+  const { data } = await supabase.from("products").select("*").order("id");
+  return data ?? [];
+}
+
+export async function getProduct(id) {
   if (!/^\d+$/.test(id)) return null;
-  const supabase = await createClient();
+  const supabase = createPublicClient();
   const { data } = await supabase
-    .from("events")
+    .from("products")
     .select("*")
     .eq("id", id)
     .maybeSingle();

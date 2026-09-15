@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { getUpcomingEvents } from "@/lib/data";
 
+// Served from cache and refreshed in the background, so visits are instant.
+// Admin edits refresh it immediately via revalidatePath.
+export const revalidate = 300;
+
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("en-IN", {
     day: "numeric",

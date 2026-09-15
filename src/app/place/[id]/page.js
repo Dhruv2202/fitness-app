@@ -1,6 +1,7 @@
 import Link from "next/link";
 import FavouriteButton from "@/components/FavouriteButton";
 import { createClient } from "@/lib/supabase/server";
+import { getOptionalUser } from "@/lib/auth";
 import { getPlace } from "@/lib/data";
 import { iconForType } from "@/lib/icons";
 
@@ -25,13 +26,11 @@ export default async function PlaceDetailPage({ params }) {
     );
   }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getOptionalUser();
 
   let initiallySaved = false;
   if (user) {
+    const supabase = await createClient();
     const { data } = await supabase
       .from("favourites")
       .select("id")

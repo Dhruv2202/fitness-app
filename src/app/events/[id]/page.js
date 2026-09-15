@@ -1,6 +1,7 @@
 import Link from "next/link";
 import RegisteredButton from "@/components/RegisteredButton";
 import { createClient } from "@/lib/supabase/server";
+import { getOptionalUser } from "@/lib/auth";
 import { getEvent } from "@/lib/data";
 
 function formatDate(dateStr) {
@@ -33,13 +34,11 @@ export default async function EventDetailPage({ params }) {
     );
   }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getOptionalUser();
 
   let initiallyRegistered = false;
   if (user) {
+    const supabase = await createClient();
     const { data } = await supabase
       .from("event_registrations")
       .select("id")
