@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import FavouriteButton from "@/components/FavouriteButton";
 import { createClient } from "@/lib/supabase/server";
 import { getOptionalUser } from "@/lib/auth";
@@ -15,16 +16,7 @@ export default async function PlaceDetailPage({ params }) {
   const { id } = await params;
   const place = await getPlace(id);
 
-  if (!place) {
-    return (
-      <div className="p-4">
-        <p className="text-sm text-neutral-500">Place not found.</p>
-        <Link href="/" className="mt-2 text-sm text-emerald-600">
-          ← Back to Discover
-        </Link>
-      </div>
-    );
-  }
+  if (!place) notFound();
 
   const user = await getOptionalUser();
 

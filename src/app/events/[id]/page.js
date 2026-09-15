@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import RegisteredButton from "@/components/RegisteredButton";
 import { createClient } from "@/lib/supabase/server";
 import { getOptionalUser } from "@/lib/auth";
@@ -23,16 +24,7 @@ export default async function EventDetailPage({ params }) {
   const { id } = await params;
   const event = await getEvent(id);
 
-  if (!event) {
-    return (
-      <div className="p-4">
-        <p className="text-sm text-neutral-500">Event not found.</p>
-        <Link href="/events" className="mt-2 text-sm text-emerald-600">
-          ← Back to Events
-        </Link>
-      </div>
-    );
-  }
+  if (!event) notFound();
 
   const user = await getOptionalUser();
 
