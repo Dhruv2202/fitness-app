@@ -1,17 +1,18 @@
 import Link from "next/link";
-import { realPlaces } from "@/data/realPlaces";
 import FavouriteButton from "@/components/FavouriteButton";
 import { createClient } from "@/lib/supabase/server";
+import { getPlace } from "@/lib/data";
+import { iconForType } from "@/lib/icons";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
-  const place = realPlaces.find((g) => String(g.id) === id);
+  const place = await getPlace(id);
   return { title: place?.name ?? "Place not found" };
 }
 
 export default async function PlaceDetailPage({ params }) {
   const { id } = await params;
-  const place = realPlaces.find((g) => String(g.id) === id);
+  const place = await getPlace(id);
 
   if (!place) {
     return (
@@ -41,14 +42,22 @@ export default async function PlaceDetailPage({ params }) {
   }
 
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    place.address || `${place.name}, ${place.area}, Delhi, India`
+    place.address || `${place.name}, ${place.area ?? "Delhi"}, India`
   )}`;
 
   return (
     <div>
-      <div className="flex h-40 items-center justify-center bg-emerald-100 text-6xl">
-        {place.icon}
-      </div>
+      {place.photo_url ? (
+        <img
+          src={place.photo_url}
+          alt={place.name}
+          className="h-52 w-full object-cover"
+        />
+      ) : (
+        <div className="flex h-40 items-center justify-center bg-emerald-100 text-6xl">
+          {iconForType(place.type)}
+        </div>
+      )}
 
       <div className="p-4">
         <Link href="/" className="text-sm text-neutral-500">
@@ -57,11 +66,10 @@ export default async function PlaceDetailPage({ params }) {
 
         <div className="mt-2 flex items-start justify-between gap-2">
           <div>
-            <h1 className="text-xl font-bold text-neutral-900">
-              {place.name}
-            </h1>
+            <h1 className="text-xl font-bold text-neutral-900">{place.name}</h1>
             <p className="text-sm text-neutral-500">
-              {place.type} · {place.area}
+              {place.type}
+              {place.area ? ` · ${place.area}` : ""}
             </p>
           </div>
           <FavouriteButton
@@ -72,8 +80,14 @@ export default async function PlaceDetailPage({ params }) {
         </div>
 
         <div className="mt-3 flex items-center gap-3 text-sm">
-          {place.rating && <span className="text-amber-600">⭐ {place.rating}</span>}
-          <span className="text-neutral-700">{place.fee ?? "Fee not listed"}</span>
+          {place.rating && (
+            <span className="rounded-md bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
+              {place.rating} ★
+            </span>
+          )}
+          <span className="text-neutral-700">
+            {place.fee ?? "Fee not listed"}
+          </span>
         </div>
 
         <div className="mt-5 flex gap-3">
@@ -113,11 +127,9 @@ export default async function PlaceDetailPage({ params }) {
           </p>
         </div>
 
-        {place.amenities.length > 0 && (
+        {place.amenities?.length > 0 && (
           <div className="mt-4">
-            <h2 className="text-sm font-semibold text-neutral-900">
-              Amenities
-            </h2>
+            <h2 className="text-sm font-semibold text-neutral-900">Amenities</h2>
             <div className="mt-2 flex flex-wrap gap-2">
               {place.amenities.map((amenity) => (
                 <span

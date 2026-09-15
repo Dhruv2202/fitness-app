@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/LogoutButton";
-import { sampleEvents, sampleProducts } from "@/data/sampleData";
-import { realPlaces } from "@/data/realPlaces";
+import { sampleProducts } from "@/data/sampleData";
+import { iconForType } from "@/lib/icons";
 
 function formatClickTime(dateStr) {
   return new Date(dateStr).toLocaleDateString("en-IN", {
@@ -47,18 +47,38 @@ export default async function ProfilePage() {
     .select("place_id")
     .eq("user_id", user.id);
 
-  const favouritePlaces = (favouriteRows ?? [])
-    .map((row) => realPlaces.find((g) => g.id === row.place_id))
-    .filter(Boolean);
+  const favouriteIds = (favouriteRows ?? []).map((row) => row.place_id);
+  const { data: favouritePlaceRows } = favouriteIds.length
+    ? await supabase
+        .from("places")
+        .select("id, name, type")
+        .in("id", favouriteIds)
+    : { data: [] };
+  const favouritePlaces = favouritePlaceRows ?? [];
 
   const { data: registrationRows } = await supabase
     .from("event_registrations")
     .select("event_id")
     .eq("user_id", user.id);
 
-  const registeredEvents = (registrationRows ?? [])
-    .map((row) => sampleEvents.find((e) => e.id === row.event_id))
-    .filter(Boolean);
+  const registeredIds = (registrationRows ?? []).map((row) => row.event_id);
+  const { data: registeredEventRows } = registeredIds.length
+    ? await supabase
+        .from("events")
+        .select("id, name, venue")
+        .in("id", registeredIds)
+    : { data: [] };
+  const registeredEvents = registeredEventRows ?? [];
+
+  const isAdmin = Boolean(
+    (
+      await supabase
+        .from("admins")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle()
+    ).data
+  );
 
   const { data: clickRows } = await supabase
     .from("product_clicks")
@@ -82,6 +102,15 @@ export default async function ProfilePage() {
         <LogoutButton />
       </div>
 
+      {isAdmin && (
+        <Link
+          href="/admin"
+          className="mt-6 block rounded-xl bg-neutral-900 py-2.5 text-center text-sm font-semibold text-white"
+        >
+          ⚙️ Manage places & events
+        </Link>
+      )}
+
       <div className="mt-8">
         <h2 className="text-sm font-semibold text-neutral-900">
           Saved places ({favouritePlaces.length})
@@ -98,7 +127,7 @@ export default async function ProfilePage() {
                 href={`/place/${place.id}`}
                 className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-3"
               >
-                <span className="text-xl">{place.icon}</span>
+                <span className="text-xl">{iconForType(place.type)}</span>
                 <span className="text-sm font-medium text-neutral-900">
                   {place.name}
                 </span>
