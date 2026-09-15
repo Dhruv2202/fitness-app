@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/LogoutButton";
 import PageHeader from "@/components/PageHeader";
 import { iconForType } from "@/lib/icons";
+import { ageFromDateOfBirth, genderLabel } from "@/lib/profile";
 
 function formatClickTime(dateStr) {
   return new Date(dateStr).toLocaleDateString("en-IN", {
@@ -79,6 +80,15 @@ export default async function ProfilePage() {
     : { data: [] };
   const registeredEvents = registeredEventRows ?? [];
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, date_of_birth, gender")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  const age = ageFromDateOfBirth(profile?.date_of_birth);
+  const needsDetails = !profile?.full_name;
+
   const isAdmin = Boolean(
     (
       await supabase
@@ -117,17 +127,39 @@ export default async function ProfilePage() {
     <div className="px-4 pb-6 pt-5">
       <PageHeader title="Profile" />
 
-      <div className="card-shadow mt-4 flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
-        <span className="photo-placeholder flex h-12 w-12 items-center justify-center rounded-full text-xl">
-          👤
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-ink">
-            {user.email}
-          </p>
-          <p className="text-xs text-muted">Signed in</p>
+      <div className="card-shadow mt-4 rounded-2xl border border-line bg-surface p-4">
+        <div className="flex items-center gap-3">
+          <span className="photo-placeholder flex h-12 w-12 items-center justify-center rounded-full text-xl">
+            {profile?.full_name ? profile.full_name.trim()[0].toUpperCase() : "👤"}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-ink">
+              {profile?.full_name ?? user.email}
+            </p>
+            <p className="truncate text-xs text-muted">
+              {[age !== null && `${age} yrs`, genderLabel(profile?.gender)]
+                .filter(Boolean)
+                .join(" · ") || user.email}
+            </p>
+          </div>
+          <LogoutButton />
         </div>
-        <LogoutButton />
+
+        {needsDetails ? (
+          <Link
+            href="/profile/edit"
+            className="press mt-3 block rounded-xl bg-brand-soft py-2 text-center text-xs font-semibold text-brand"
+          >
+            Add your name, age and gender →
+          </Link>
+        ) : (
+          <Link
+            href="/profile/edit"
+            className="mt-3 block text-center text-xs font-medium text-muted"
+          >
+            Edit details
+          </Link>
+        )}
       </div>
 
       {isAdmin && (
