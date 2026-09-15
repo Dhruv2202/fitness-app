@@ -6,9 +6,9 @@ import { parseCsv, rowsToPlaces, IMPORT_COLUMNS } from "@/lib/csv";
 import { importPlaces } from "@/app/admin/actions";
 import SubmitButton from "@/components/SubmitButton";
 
-const TEMPLATE = `name,type,area,address,phone,fee,timings,rating,lat,lon,amenities
-Gold's Gym Saket,Gym,Saket,"District Centre, Saket, New Delhi",+919810012345,₹2500/mo,"6:00 AM - 10:00 PM",4.5,28.5245,77.2066,"Parking, AC, Personal Training"
-Calm Yoga Studio,Yoga Studio,Dwarka,"Sector 12, Dwarka",+919810099999,₹1200/mo,"6:00 AM - 8:00 PM",,,,"Locker Rooms"`;
+const TEMPLATE = `name,type,area,address,phone,fee,timings,rating,lat,lon,amenities,website
+Gold's Gym Saket,Gym,Saket,"District Centre, Saket, New Delhi",+919810012345,₹2500/mo,"6:00 AM - 10:00 PM",4.5,28.5245,77.2066,"Parking, AC, Personal Training",https://example.com
+Calm Yoga Studio,Yoga Studio,Dwarka,"Sector 12, Dwarka",+919810099999,₹1200/mo,"6:00 AM - 8:00 PM",,,,"Locker Rooms",`;
 
 export default function BulkImport({ existingNames }) {
   const [places, setPlaces] = useState([]);
@@ -126,6 +126,7 @@ export default function BulkImport({ existingNames }) {
                   {place.area ? ` · ${place.area}` : ""}
                   {place.phone ? ` · ${place.phone}` : ""}
                   {place.fee ? ` · ${place.fee}` : ""}
+                  {place.website ? " · 🌐" : ""}
                 </p>
               </div>
             ))}

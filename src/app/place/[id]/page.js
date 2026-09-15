@@ -132,6 +132,17 @@ export default async function PlaceDetailPage({ params }) {
           </div>
         </div>
 
+        {place.website && (
+          <a
+            href={place.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="press mt-3 block rounded-xl border border-line bg-surface py-2.5 text-center text-sm font-semibold text-ink"
+          >
+            🌐 Visit website
+          </a>
+        )}
+
         <div className="mt-4 rounded-2xl border border-line bg-surface px-4">
           <DetailRow label="Timings" value={place.timings} />
           <DetailRow label="Address" value={place.address} />

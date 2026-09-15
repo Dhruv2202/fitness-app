@@ -41,6 +41,7 @@ export default function PlaceForm({ place }) {
   const [lat, setLat] = useState(place?.lat ?? "");
   const [lon, setLon] = useState(place?.lon ?? "");
   const [photoUrl, setPhotoUrl] = useState(place?.photo_url ?? "");
+  const [website, setWebsite] = useState(place?.website ?? "");
 
   const [state, lookupAction, looking] = useActionState(lookupMapsLink, {});
 
@@ -60,6 +61,7 @@ export default function PlaceForm({ place }) {
     fillIfEmpty(setAddress, found.address);
     fillIfEmpty(setPhone, found.phone);
     fillIfEmpty(setTimings, found.timings);
+    fillIfEmpty(setWebsite, found.website);
     fillIfEmpty(setLat, found.lat);
     fillIfEmpty(setLon, found.lon);
     if (found.photo_url) setPhotoUrl(found.photo_url);
@@ -154,6 +156,13 @@ export default function PlaceForm({ place }) {
           value={phone}
           onChange={setPhone}
           placeholder="+919810012345"
+        />
+        <Field
+          label="Website"
+          name="website"
+          value={website}
+          onChange={setWebsite}
+          placeholder="https://example.com"
         />
         <Field
           label="Membership fee"

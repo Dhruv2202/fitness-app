@@ -203,7 +203,7 @@ function addressFromPage(html) {
 }
 
 export async function fetchPlaceMeta(rawUrl) {
-  const { html, host } = await loadPage(rawUrl);
+  const { html, host, url } = await loadPage(rawUrl);
   const found = businessFromJsonLd(html);
 
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];
@@ -222,6 +222,7 @@ export async function fetchPlaceMeta(rawUrl) {
     image: firstOf(found.image, metaContent(html, "og:image")),
     lat: Number.isFinite(found.lat) ? found.lat : null,
     lon: Number.isFinite(found.lon) ? found.lon : null,
+    website: url,
     source: host,
   };
 }

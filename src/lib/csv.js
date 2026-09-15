@@ -60,6 +60,7 @@ export const IMPORT_COLUMNS = [
   "lat",
   "lon",
   "amenities",
+  "website",
 ];
 
 export function rowsToPlaces(rows) {
@@ -121,6 +122,7 @@ export function rowsToPlaces(rows) {
           : null,
       lat: lat === "" ? null : Number(lat),
       lon: lon === "" ? null : Number(lon),
+      website: get("website") || null,
       amenities: amenities
         ? amenities.split(/[,;|]/).map((a) => a.trim()).filter(Boolean)
         : [],

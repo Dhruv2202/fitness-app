@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import AdminSection from "@/components/AdminSection";
+import PhotoFiller from "@/components/PhotoFiller";
 import { getAdminUser } from "@/lib/admin";
 import { getPlaces, getAllEvents, getProducts } from "@/lib/data";
 import { iconForType } from "@/lib/icons";
@@ -122,6 +123,8 @@ export default async function AdminPage() {
           </>
         }
       />
+
+      <PhotoFiller />
     </div>
   );
 }

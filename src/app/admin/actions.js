@@ -38,6 +38,7 @@ function placeFromForm(formData) {
     phone: textOrNull(formData.get("phone")),
     timings: textOrNull(formData.get("timings")),
     photo_url: textOrNull(formData.get("photo_url")),
+    website: textOrNull(formData.get("website")),
     amenities: amenities
       ? amenities.split(",").map((a) => a.trim()).filter(Boolean)
       : [],
@@ -98,7 +99,7 @@ export async function lookupMapsLink(_prevState, formData) {
     };
   }
 
-  const filled = ["address", "phone", "timings", "photo_url"].filter(
+  const filled = ["address", "phone", "timings", "photo_url", "website"].filter(
     (k) => found[k]
   );
 
@@ -127,6 +128,7 @@ async function placeFromLink(link) {
       phone: extra.confident ? (extra.phone ?? null) : null,
       timings: extra.confident ? (extra.timings ?? null) : null,
       photo_url: null,
+      website: null,
       matched: Boolean(extra.confident),
       from: "maps",
     };
@@ -150,6 +152,7 @@ async function placeFromLink(link) {
     phone: site.phone ?? (extra.confident ? extra.phone : null),
     timings: site.timings ?? (extra.confident ? extra.timings : null),
     photo_url: await storeImage(site.image),
+    website: site.website ?? null,
     matched: Boolean(site.address || site.phone),
     from: "website",
   };
@@ -304,6 +307,7 @@ export async function importPlaces(formData) {
       lat: Number.isFinite(row.lat) ? row.lat : null,
       lon: Number.isFinite(row.lon) ? row.lon : null,
       photo_url: row.photo_url ?? null,
+      website: row.website ?? null,
       amenities: Array.isArray(row.amenities) ? row.amenities : [],
     }));
 
@@ -529,4 +533,78 @@ export async function deleteEvent(formData) {
   revalidatePath("/events");
   revalidatePath("/admin");
   redirect("/admin");
+}
+
+// A few places at a time, so one slow site can't push the whole batch past the
+// hosting time limit. Press the button again for the next few.
+const PHOTO_BATCH = 4;
+
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} took too long`)), ms)
+    ),
+  ]);
+}
+
+// Fills in photos for places that have a website but no picture yet, by reading
+// the site's own preview image. Nothing is overwritten: a place that already
+// has a photo is left alone.
+export async function fillPhotos(_prevState) {
+  const admin = await getAdminUser();
+  if (!admin) return { error: "Not authorised" };
+
+  const supabase = await createClient();
+
+  const { data: pending, error: readError } = await supabase
+    .from("places")
+    .select("id, name, website")
+    .not("website", "is", null)
+    .is("photo_url", null)
+    .order("id")
+    .limit(PHOTO_BATCH);
+
+  if (readError) return { error: readError.message };
+  if (!pending?.length) {
+    return { done: 0, failed: [], remaining: 0, message: "Every place with a website already has a photo." };
+  }
+
+  const results = await Promise.allSettled(
+    pending.map(async (place) => {
+      const meta = await withTimeout(fetchPlaceMeta(place.website), 12000, "The site");
+      if (!meta.image) throw new Error("no preview image on the page");
+
+      const stored = await withTimeout(storeImage(meta.image), 12000, "The image");
+      if (!stored) throw new Error("the image couldn't be saved");
+
+      // .select() so a blocked write shows up — a refused update returns no
+      // error and no rows.
+      const { data, error } = await supabase
+        .from("places")
+        .update({ photo_url: stored })
+        .eq("id", place.id)
+        .select("id");
+
+      if (error) throw new Error(error.message);
+      if (!data?.length) throw new Error("the database refused the update");
+      return place.name;
+    })
+  );
+
+  const done = results.filter((r) => r.status === "fulfilled").length;
+  const failed = results
+    .map((r, i) => (r.status === "rejected" ? `${pending[i].name}: ${r.reason.message}` : null))
+    .filter(Boolean);
+
+  const { count } = await supabase
+    .from("places")
+    .select("id", { count: "exact", head: true })
+    .not("website", "is", null)
+    .is("photo_url", null);
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+
+  return { done, failed, remaining: count ?? 0 };
 }
