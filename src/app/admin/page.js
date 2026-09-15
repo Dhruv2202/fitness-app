@@ -122,6 +122,8 @@ export default async function AdminPage() {
                 src={place.photo_url}
                 alt=""
                 className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-lg">

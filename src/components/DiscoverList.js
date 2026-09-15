@@ -115,6 +115,8 @@ export default function DiscoverList({ places }) {
                 src={place.photo_url}
                 alt={place.name}
                 className="h-40 w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="flex h-24 w-full items-center justify-center bg-emerald-50 text-4xl">

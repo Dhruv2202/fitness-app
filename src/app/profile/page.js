@@ -26,7 +26,7 @@ export default async function ProfilePage() {
         </h1>
         <p className="mt-2 text-sm text-neutral-500">
           Once you have an account, your saved places, registered events and
-          order history will show up here.
+          shop activity will show up here.
         </p>
         <Link
           href="/login"

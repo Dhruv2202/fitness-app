@@ -31,6 +31,8 @@ export default async function EventsPage() {
                 src={event.photo_url}
                 alt={event.name}
                 className="h-40 w-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             )}
             <div className="p-4">

@@ -21,6 +21,8 @@ export default async function ShopPage() {
                 src={product.photo_url}
                 alt={product.name}
                 className="h-16 w-16 shrink-0 rounded-xl object-cover"
+                loading="lazy"
+                decoding="async"
               />
             ) : (
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-2xl">
