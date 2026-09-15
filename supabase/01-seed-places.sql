@@ -1,6 +1,6 @@
 -- Seeds the places table with the OpenStreetMap snapshot.
 -- Safe to re-run: existing rows are left untouched.
--- Run this AFTER 02-places-events-admin.sql.
+-- Run this AFTER 00-setup-all.sql.
 
 insert into places (id, osm_id, name, type, area, address, lat, lon, phone, timings, amenities)
 values
