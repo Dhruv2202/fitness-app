@@ -6,12 +6,12 @@ import { savePlace, deletePlace } from "@/app/admin/actions";
 import { PLACE_TYPES } from "@/lib/icons";
 
 const inputClass =
-  "mt-1 w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 text-sm outline-none focus:border-emerald-500";
+  "mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm outline-none focus:border-brand";
 
 function Field({ label, name, defaultValue, type = "text", placeholder }) {
   return (
     <label className="block">
-      <span className="text-xs font-semibold text-neutral-700">{label}</span>
+      <span className="text-xs font-semibold text-ink">{label}</span>
       <input
         type={type}
         name={name}
@@ -26,11 +26,11 @@ function Field({ label, name, defaultValue, type = "text", placeholder }) {
 export default function PlaceForm({ place }) {
   return (
     <div className="p-4">
-      <Link href="/admin" className="text-sm text-neutral-500">
+      <Link href="/admin" className="text-sm text-muted">
         ← Back to admin
       </Link>
 
-      <h1 className="mt-2 text-xl font-bold text-neutral-900">
+      <h1 className="mt-2 text-xl font-bold text-ink">
         {place ? "Edit place" : "Add a place"}
       </h1>
 
@@ -40,7 +40,7 @@ export default function PlaceForm({ place }) {
         <Field label="Name *" name="name" defaultValue={place?.name} />
 
         <label className="block">
-          <span className="text-xs font-semibold text-neutral-700">Type</span>
+          <span className="text-xs font-semibold text-ink">Type</span>
           <select
             name="type"
             defaultValue={place?.type ?? "Gym"}
@@ -109,7 +109,7 @@ export default function PlaceForm({ place }) {
             placeholder="77.2167"
           />
         </div>
-        <p className="text-xs text-neutral-400">
+        <p className="text-xs text-muted">
           Coordinates power the &quot;nearest me&quot; sorting. Find them by
           right-clicking the spot in Google Maps and copying the numbers.
         </p>

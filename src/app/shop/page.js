@@ -1,3 +1,4 @@
+import PageHeader from "@/components/PageHeader";
 import { getProducts } from "@/lib/data";
 
 // Served from cache and refreshed in the background, so visits are instant.
@@ -8,17 +9,17 @@ export default async function ShopPage() {
   const products = await getProducts();
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Shop</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-        Supplements & gear, straight from the brands
-      </p>
+    <div className="px-4 pb-6 pt-5">
+      <PageHeader
+        title="Shop"
+        subtitle="Supplements & gear, straight from the brands"
+      />
 
-      <div className="mt-4 flex flex-col gap-3">
+      <div className="mt-5 flex flex-col gap-3">
         {products.map((product) => (
           <div
             key={product.id}
-            className="flex items-center gap-3 rounded-2xl border border-neutral-200 bg-white p-3"
+            className="card-shadow flex items-center gap-3 rounded-2xl border border-line bg-surface p-3"
           >
             {product.photo_url ? (
               <img
@@ -29,18 +30,22 @@ export default async function ShopPage() {
                 decoding="async"
               />
             ) : (
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-2xl">
+              <div className="photo-placeholder flex h-16 w-16 shrink-0 items-center justify-center rounded-xl text-2xl">
                 💪
               </div>
             )}
 
-            <div className="flex-1">
-              <span className="text-xs font-medium text-neutral-400">
+            <div className="min-w-0 flex-1">
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-muted">
                 {product.brand}
               </span>
-              <p className="font-semibold text-neutral-900">{product.name}</p>
+              <p className="font-semibold leading-snug text-ink">
+                {product.name}
+              </p>
               {product.price && (
-                <p className="text-sm text-neutral-700">{product.price}</p>
+                <p className="mt-0.5 text-sm font-medium text-ink">
+                  {product.price}
+                </p>
               )}
             </div>
 
@@ -48,7 +53,7 @@ export default async function ShopPage() {
               href={`/api/buy/${product.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0 rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white"
+              className="press shrink-0 rounded-full bg-brand px-4 py-2 text-sm font-semibold text-brand-ink"
             >
               Buy
             </a>
@@ -56,11 +61,16 @@ export default async function ShopPage() {
         ))}
 
         {products.length === 0 && (
-          <p className="mt-6 text-center text-sm text-neutral-400">
-            No products listed yet.
-          </p>
+          <div className="mt-12 text-center">
+            <span className="text-4xl">🛒</span>
+            <p className="mt-3 font-semibold text-ink">No products yet</p>
+          </div>
         )}
       </div>
+
+      <p className="mt-6 text-center text-[11px] text-muted">
+        Buying takes you to the brand&apos;s own website.
+      </p>
     </div>
   );
 }

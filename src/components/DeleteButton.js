@@ -12,7 +12,7 @@ export default function DeleteButton({ label, confirmText }) {
       onClick={(e) => {
         if (!window.confirm(confirmText)) e.preventDefault();
       }}
-      className="w-full rounded-full border border-rose-300 py-2.5 text-sm font-semibold text-rose-600 disabled:opacity-60"
+      className="w-full rounded-full border border-rose-300 py-2.5 text-sm font-semibold text-rose-500 disabled:opacity-60"
     >
       {pending ? "Deleting..." : label}
     </button>

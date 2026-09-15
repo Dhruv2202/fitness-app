@@ -36,8 +36,8 @@ export default function LoginPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Log in</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="text-2xl font-bold text-ink">Log in</h1>
+      <p className="mt-1 text-sm text-muted">
         Welcome back.
       </p>
 
@@ -48,7 +48,7 @@ export default function LoginPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
-          className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-500"
+          className="w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm outline-none focus:border-brand"
         />
         <input
           type="password"
@@ -56,15 +56,15 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
-          className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-500"
+          className="w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm outline-none focus:border-brand"
         />
 
-        {error && <p className="text-sm text-rose-600">{error}</p>}
+        {error && <p className="text-sm text-rose-500">{error}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="mt-1 rounded-full bg-emerald-600 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+          className="mt-1 rounded-full bg-brand py-2.5 text-sm font-semibold text-brand-ink disabled:opacity-60"
         >
           {loading ? "Logging in..." : "Log in"}
         </button>
@@ -72,14 +72,14 @@ export default function LoginPage() {
 
       <Link
         href="/forgot-password"
-        className="mt-3 block text-center text-sm text-neutral-500"
+        className="mt-3 block text-center text-sm text-muted"
       >
         Forgot password?
       </Link>
 
-      <p className="mt-4 text-center text-sm text-neutral-500">
+      <p className="mt-4 text-center text-sm text-muted">
         Don't have an account?{" "}
-        <Link href="/signup" className="font-semibold text-emerald-600">
+        <Link href="/signup" className="font-semibold text-brand">
           Sign up
         </Link>
       </p>

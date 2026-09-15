@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/LogoutButton";
+import PageHeader from "@/components/PageHeader";
 import { iconForType } from "@/lib/icons";
 
 function formatClickTime(dateStr) {
@@ -19,24 +20,33 @@ export default async function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="flex h-full flex-col items-center justify-center p-6 text-center">
-        <span className="text-4xl">👤</span>
-        <h1 className="mt-3 text-xl font-bold text-neutral-900">
-          Log in to see your profile
-        </h1>
-        <p className="mt-2 text-sm text-neutral-500">
-          Once you have an account, your saved places, registered events and
-          shop activity will show up here.
-        </p>
-        <Link
-          href="/login"
-          className="mt-5 rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white"
-        >
-          Log in
-        </Link>
-        <Link href="/signup" className="mt-3 text-sm text-neutral-500">
-          Don't have an account? Sign up
-        </Link>
+      <div className="px-4 pb-6 pt-5">
+        <PageHeader title="Profile" />
+
+        <div className="card-shadow mt-8 rounded-2xl border border-line bg-surface p-6 text-center">
+          <span className="photo-placeholder mx-auto flex h-16 w-16 items-center justify-center rounded-full text-3xl">
+            👤
+          </span>
+          <h2 className="mt-4 text-lg font-bold text-ink">
+            Log in to see your profile
+          </h2>
+          <p className="mt-2 text-sm text-muted">
+            Your saved places, registered events and shop activity will show up
+            here.
+          </p>
+          <Link
+            href="/login"
+            className="press mt-5 block rounded-xl bg-brand py-2.5 text-sm font-semibold text-brand-ink"
+          >
+            Log in
+          </Link>
+          <Link
+            href="/signup"
+            className="mt-3 block text-sm font-medium text-brand"
+          >
+            Create an account
+          </Link>
+        </div>
       </div>
     );
   }
@@ -104,28 +114,37 @@ export default async function ProfilePage() {
     .filter(Boolean);
 
   return (
-    <div className="p-4">
-      <div className="text-center">
-        <span className="text-4xl">👤</span>
-        <p className="mt-2 text-sm text-neutral-600">{user.email}</p>
+    <div className="px-4 pb-6 pt-5">
+      <PageHeader title="Profile" />
+
+      <div className="card-shadow mt-4 flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
+        <span className="photo-placeholder flex h-12 w-12 items-center justify-center rounded-full text-xl">
+          👤
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-semibold text-ink">
+            {user.email}
+          </p>
+          <p className="text-xs text-muted">Signed in</p>
+        </div>
         <LogoutButton />
       </div>
 
       {isAdmin && (
         <Link
           href="/admin"
-          className="mt-6 block rounded-xl bg-neutral-900 py-2.5 text-center text-sm font-semibold text-white"
+          className="press mt-3 block rounded-xl bg-ink py-2.5 text-center text-sm font-semibold text-app"
         >
           ⚙️ Manage content
         </Link>
       )}
 
       <div className="mt-8">
-        <h2 className="text-sm font-semibold text-neutral-900">
+        <h2 className="text-sm font-semibold text-ink">
           Saved places ({favouritePlaces.length})
         </h2>
         {favouritePlaces.length === 0 ? (
-          <p className="mt-2 text-sm text-neutral-400">
+          <p className="mt-2 text-sm text-muted">
             Nothing saved yet — tap the heart on a place in Discover.
           </p>
         ) : (
@@ -134,10 +153,10 @@ export default async function ProfilePage() {
               <Link
                 key={place.id}
                 href={`/place/${place.id}`}
-                className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-3"
+                className="flex items-center gap-3 rounded-xl border border-line bg-surface p-3"
               >
                 <span className="text-xl">{iconForType(place.type)}</span>
-                <span className="text-sm font-medium text-neutral-900">
+                <span className="text-sm font-medium text-ink">
                   {place.name}
                 </span>
               </Link>
@@ -147,11 +166,11 @@ export default async function ProfilePage() {
       </div>
 
       <div className="mt-6">
-        <h2 className="text-sm font-semibold text-neutral-900">
+        <h2 className="text-sm font-semibold text-ink">
           Registered events ({registeredEvents.length})
         </h2>
         {registeredEvents.length === 0 ? (
-          <p className="mt-2 text-sm text-neutral-400">
+          <p className="mt-2 text-sm text-muted">
             No registrations yet — mark yourself registered on an event page.
           </p>
         ) : (
@@ -160,12 +179,12 @@ export default async function ProfilePage() {
               <Link
                 key={event.id}
                 href={`/events/${event.id}`}
-                className="flex flex-col rounded-xl border border-neutral-200 bg-white p-3"
+                className="flex flex-col rounded-xl border border-line bg-surface p-3"
               >
-                <span className="text-sm font-medium text-neutral-900">
+                <span className="text-sm font-medium text-ink">
                   {event.name}
                 </span>
-                <span className="text-xs text-neutral-500">
+                <span className="text-xs text-muted">
                   {event.venue}
                 </span>
               </Link>
@@ -175,11 +194,11 @@ export default async function ProfilePage() {
       </div>
 
       <div className="mt-6">
-        <h2 className="text-sm font-semibold text-neutral-900">
+        <h2 className="text-sm font-semibold text-ink">
           Click history ({clickHistory.length})
         </h2>
         {clickHistory.length === 0 ? (
-          <p className="mt-2 text-sm text-neutral-400">
+          <p className="mt-2 text-sm text-muted">
             No clicks yet — tap "Buy" on a product in Shop.
           </p>
         ) : (
@@ -187,17 +206,17 @@ export default async function ProfilePage() {
             {clickHistory.map((click, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between rounded-xl border border-neutral-200 bg-white p-3"
+                className="flex items-center justify-between rounded-xl border border-line bg-surface p-3"
               >
                 <div>
-                  <span className="text-xs font-medium text-neutral-400">
+                  <span className="text-xs font-medium text-muted">
                     {click.brand}
                   </span>
-                  <p className="text-sm font-medium text-neutral-900">
+                  <p className="text-sm font-medium text-ink">
                     {click.name}
                   </p>
                 </div>
-                <span className="text-xs text-neutral-400">
+                <span className="text-xs text-muted">
                   {formatClickTime(click.clickedAt)}
                 </span>
               </div>

@@ -46,7 +46,7 @@ export default function PhotoUpload({ name, initialUrl }) {
 
   return (
     <div>
-      <label className="text-xs font-semibold text-neutral-700">Photo</label>
+      <label className="text-xs font-semibold text-ink">Photo</label>
 
       {url && (
         <img
@@ -61,13 +61,13 @@ export default function PhotoUpload({ name, initialUrl }) {
         accept="image/*"
         onChange={handleFile}
         disabled={uploading}
-        className="mt-2 w-full text-xs text-neutral-600 file:mr-3 file:rounded-full file:border-0 file:bg-neutral-200 file:px-3 file:py-1.5 file:text-xs file:font-semibold"
+        className="mt-2 w-full text-xs text-muted file:mr-3 file:rounded-full file:border-0 file:bg-surface-2 file:px-3 file:py-1.5 file:text-xs file:font-semibold"
       />
 
       {uploading && (
-        <p className="mt-1 text-xs text-neutral-500">Uploading...</p>
+        <p className="mt-1 text-xs text-muted">Uploading...</p>
       )}
-      {error && <p className="mt-1 text-xs text-rose-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-rose-500">{error}</p>}
 
       <input type="hidden" name={name} value={url} />
     </div>

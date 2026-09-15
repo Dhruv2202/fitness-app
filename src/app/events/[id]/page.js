@@ -51,31 +51,31 @@ export default async function EventDetailPage({ params }) {
       )}
 
       <div className="p-4">
-        <Link href="/events" className="block text-sm text-neutral-500">
+        <Link href="/events" className="block text-sm text-muted">
           ← Back to Events
         </Link>
 
         {event.type && (
-          <span className="mt-3 inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+          <span className="mt-3 inline-block rounded-full bg-brand-soft px-2.5 py-0.5 text-xs font-medium text-brand">
             {event.type}
           </span>
         )}
-        <h1 className="mt-2 text-xl font-bold text-neutral-900">{event.name}</h1>
+        <h1 className="mt-2 text-xl font-bold text-ink">{event.name}</h1>
 
-        <p className="mt-3 text-sm text-neutral-600">
+        <p className="mt-3 text-sm text-muted">
           📅 {formatDate(event.event_date)}
         </p>
         {event.venue && (
-          <p className="mt-1 text-sm text-neutral-600">📍 {event.venue}</p>
+          <p className="mt-1 text-sm text-muted">📍 {event.venue}</p>
         )}
         {event.organiser && (
-          <p className="mt-1 text-sm text-neutral-400">
+          <p className="mt-1 text-sm text-muted">
             Organised by {event.organiser}
           </p>
         )}
 
         {event.description && (
-          <p className="mt-4 text-sm leading-relaxed text-neutral-700">
+          <p className="mt-4 text-sm leading-relaxed text-ink">
             {event.description}
           </p>
         )}
@@ -86,7 +86,7 @@ export default async function EventDetailPage({ params }) {
               href={event.registration_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full rounded-full bg-emerald-600 py-2.5 text-center text-sm font-semibold text-white"
+              className="w-full rounded-full bg-brand py-2.5 text-center text-sm font-semibold text-brand-ink"
             >
               Register on organiser's site ↗
             </a>

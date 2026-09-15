@@ -46,47 +46,47 @@ export default function BulkImport({ existingNames }) {
 
   return (
     <div className="p-4">
-      <Link href="/admin" className="text-sm text-neutral-500">
+      <Link href="/admin" className="text-sm text-muted">
         ← Back to admin
       </Link>
 
-      <h1 className="mt-2 text-xl font-bold text-neutral-900">
+      <h1 className="mt-2 text-xl font-bold text-ink">
         Import from a spreadsheet
       </h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <p className="mt-1 text-sm text-muted">
         Fill a spreadsheet, export it as CSV, then load it here. Only{" "}
         <strong>name</strong> is required — leave anything else blank.
       </p>
 
       <button
         onClick={downloadTemplate}
-        className="mt-3 w-full rounded-xl border border-neutral-300 py-2.5 text-sm font-semibold text-neutral-700"
+        className="mt-3 w-full rounded-xl border border-line py-2.5 text-sm font-semibold text-ink"
       >
         ⬇ Download template spreadsheet
       </button>
 
-      <p className="mt-3 text-xs text-neutral-400">
+      <p className="mt-3 text-xs text-muted">
         Columns: {IMPORT_COLUMNS.join(", ")}
       </p>
 
-      <label className="mt-4 block text-xs font-semibold text-neutral-700">
+      <label className="mt-4 block text-xs font-semibold text-ink">
         Choose your CSV file
       </label>
       <input
         type="file"
         accept=".csv,text/csv"
         onChange={handleFile}
-        className="mt-1 w-full text-xs text-neutral-600 file:mr-3 file:rounded-full file:border-0 file:bg-neutral-200 file:px-3 file:py-1.5 file:text-xs file:font-semibold"
+        className="mt-1 w-full text-xs text-muted file:mr-3 file:rounded-full file:border-0 file:bg-surface-2 file:px-3 file:py-1.5 file:text-xs file:font-semibold"
       />
 
-      <label className="mt-4 block text-xs font-semibold text-neutral-700">
+      <label className="mt-4 block text-xs font-semibold text-ink">
         ...or paste the rows here
       </label>
       <textarea
         rows={5}
         onChange={(e) => handleText(e.target.value)}
         placeholder="name,type,area..."
-        className="mt-1 w-full rounded-xl border border-neutral-300 bg-white px-3 py-2 font-mono text-xs outline-none focus:border-emerald-500"
+        className="mt-1 w-full rounded-xl border border-line bg-surface px-3 py-2 font-mono text-xs outline-none focus:border-brand"
       />
 
       {errors.length > 0 && (
@@ -101,7 +101,7 @@ export default function BulkImport({ existingNames }) {
 
       {touched && (
         <div className="mt-4">
-          <h2 className="text-sm font-semibold text-neutral-900">
+          <h2 className="text-sm font-semibold text-ink">
             Ready to add: {fresh.length}
           </h2>
 
@@ -116,12 +116,12 @@ export default function BulkImport({ existingNames }) {
             {fresh.slice(0, 20).map((place, i) => (
               <div
                 key={i}
-                className="rounded-xl border border-neutral-200 bg-white p-2.5"
+                className="rounded-xl border border-line bg-surface p-2.5"
               >
-                <p className="text-sm font-medium text-neutral-900">
+                <p className="text-sm font-medium text-ink">
                   {place.name}
                 </p>
-                <p className="text-xs text-neutral-500">
+                <p className="text-xs text-muted">
                   {place.type}
                   {place.area ? ` · ${place.area}` : ""}
                   {place.phone ? ` · ${place.phone}` : ""}
@@ -130,7 +130,7 @@ export default function BulkImport({ existingNames }) {
               </div>
             ))}
             {fresh.length > 20 && (
-              <p className="text-xs text-neutral-400">
+              <p className="text-xs text-muted">
                 ...and {fresh.length - 20} more
               </p>
             )}

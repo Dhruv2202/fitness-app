@@ -38,15 +38,15 @@ export default function ResetPasswordPage() {
   if (done) {
     return (
       <div className="p-4">
-        <h1 className="text-2xl font-bold text-neutral-900">Password updated</h1>
-        <p className="mt-2 text-sm text-neutral-600">Taking you to your profile...</p>
+        <h1 className="text-2xl font-bold text-ink">Password updated</h1>
+        <p className="mt-2 text-sm text-muted">Taking you to your profile...</p>
       </div>
     );
   }
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Set a new password</h1>
+      <h1 className="text-2xl font-bold text-ink">Set a new password</h1>
 
       <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
         <input
@@ -56,15 +56,15 @@ export default function ResetPasswordPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="New password (min 6 characters)"
-          className="w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-500"
+          className="w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm outline-none focus:border-brand"
         />
 
-        {error && <p className="text-sm text-rose-600">{error}</p>}
+        {error && <p className="text-sm text-rose-500">{error}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          className="mt-1 rounded-full bg-emerald-600 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+          className="mt-1 rounded-full bg-brand py-2.5 text-sm font-semibold text-brand-ink disabled:opacity-60"
         >
           {loading ? "Updating..." : "Update password"}
         </button>

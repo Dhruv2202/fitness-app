@@ -9,7 +9,7 @@ export default function SubmitButton({ label, pendingLabel }) {
     <button
       type="submit"
       disabled={pending}
-      className="mt-2 rounded-full bg-emerald-600 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+      className="mt-2 rounded-full bg-brand py-2.5 text-sm font-semibold text-brand-ink disabled:opacity-60"
     >
       {pending ? pendingLabel : label}
     </button>

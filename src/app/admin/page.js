@@ -18,18 +18,18 @@ export default async function AdminPage() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Manage content</h1>
-      <p className="mt-1 text-sm text-neutral-500">
+      <h1 className="text-2xl font-bold text-ink">Manage content</h1>
+      <p className="mt-1 text-sm text-muted">
         Everything here is live in the app as soon as you save it.
       </p>
 
       <div className="mt-6 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-neutral-900">
+        <h2 className="text-sm font-semibold text-ink">
           Events ({events.length})
         </h2>
         <Link
           href="/admin/events/new"
-          className="rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white"
+          className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-brand-ink"
         >
           + Add event
         </Link>
@@ -40,28 +40,28 @@ export default async function AdminPage() {
           <Link
             key={event.id}
             href={`/admin/events/${event.id}`}
-            className="flex items-center justify-between rounded-xl border border-neutral-200 bg-white p-3"
+            className="flex items-center justify-between rounded-xl border border-line bg-surface p-3"
           >
-            <span className="text-sm font-medium text-neutral-900">
+            <span className="text-sm font-medium text-ink">
               {event.name}
             </span>
-            <span className="text-xs text-neutral-400">{event.event_date}</span>
+            <span className="text-xs text-muted">{event.event_date}</span>
           </Link>
         ))}
         {events.length === 0 && (
-          <p className="text-sm text-neutral-400">
+          <p className="text-sm text-muted">
             No events yet. Add the first one.
           </p>
         )}
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-neutral-900">
+        <h2 className="text-sm font-semibold text-ink">
           Shop products ({products.length})
         </h2>
         <Link
           href="/admin/products/new"
-          className="rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white"
+          className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-brand-ink"
         >
           + Add product
         </Link>
@@ -72,40 +72,40 @@ export default async function AdminPage() {
           <Link
             key={product.id}
             href={`/admin/products/${product.id}`}
-            className="flex items-center justify-between rounded-xl border border-neutral-200 bg-white p-3"
+            className="flex items-center justify-between rounded-xl border border-line bg-surface p-3"
           >
-            <span className="text-sm font-medium text-neutral-900">
+            <span className="text-sm font-medium text-ink">
               {product.name}
             </span>
-            <span className="text-xs text-neutral-400">{product.brand}</span>
+            <span className="text-xs text-muted">{product.brand}</span>
           </Link>
         ))}
         {products.length === 0 && (
-          <p className="text-sm text-neutral-400">No products yet.</p>
+          <p className="text-sm text-muted">No products yet.</p>
         )}
       </div>
 
       <div className="mt-8 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-neutral-900">
+        <h2 className="text-sm font-semibold text-ink">
           Places ({places.length})
         </h2>
         <div className="flex gap-2">
           <Link
             href="/admin/import"
-            className="rounded-full border border-neutral-300 px-3 py-1.5 text-xs font-semibold text-neutral-700"
+            className="rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-ink"
           >
             ⬆ Import
           </Link>
           <Link
             href="/admin/places/new"
-            className="rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white"
+            className="rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-brand-ink"
           >
             + Add place
           </Link>
         </div>
       </div>
 
-      <p className="mt-1 text-xs text-neutral-400">
+      <p className="mt-1 text-xs text-muted">
         Tap any place to add a photo, phone number, fee or timings. Use Import to
         add many at once from a spreadsheet.
       </p>
@@ -115,7 +115,7 @@ export default async function AdminPage() {
           <Link
             key={place.id}
             href={`/admin/places/${place.id}`}
-            className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white p-3"
+            className="flex items-center gap-3 rounded-xl border border-line bg-surface p-3"
           >
             {place.photo_url ? (
               <img
@@ -126,15 +126,15 @@ export default async function AdminPage() {
                 decoding="async"
               />
             ) : (
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-lg">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-lg">
                 {iconForType(place.type)}
               </span>
             )}
-            <span className="flex-1 text-sm font-medium text-neutral-900">
+            <span className="flex-1 text-sm font-medium text-ink">
               {place.name}
             </span>
             {!place.photo_url && (
-              <span className="text-xs text-neutral-400">no photo</span>
+              <span className="text-xs text-muted">no photo</span>
             )}
           </Link>
         ))}

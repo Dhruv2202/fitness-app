@@ -12,7 +12,7 @@ export default function FavouriteButton({ placeId, userId, initiallySaved }) {
     return (
       <Link
         href="/login"
-        className="flex items-center gap-1.5 rounded-full border border-neutral-300 px-4 py-2 text-sm font-semibold text-neutral-600"
+        className="flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm font-semibold text-muted"
       >
         🤍 Log in to save
       </Link>
@@ -43,10 +43,10 @@ export default function FavouriteButton({ placeId, userId, initiallySaved }) {
     <button
       onClick={toggleFavourite}
       disabled={loading}
-      className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold disabled:opacity-60 ${
+      className={`press flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold disabled:opacity-60 ${
         isSaved
-          ? "border-rose-200 bg-rose-50 text-rose-600"
-          : "border-neutral-300 text-neutral-600"
+          ? "border-rose-400/40 bg-rose-500/10 text-rose-500"
+          : "border-line bg-surface text-muted"
       }`}
     >
       <span>{isSaved ? "❤️" : "🤍"}</span>

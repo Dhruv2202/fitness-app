@@ -21,17 +21,36 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#059669",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f7f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0f0d" },
+  ],
 };
+
+// Runs before the page paints, so a dark-mode visitor never sees a white flash.
+const themeScript = `
+(function () {
+  try {
+    var saved = localStorage.getItem("theme");
+    var dark = saved === "dark" ||
+      (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+    if (dark) document.documentElement.classList.add("dark");
+  } catch (e) {}
+})();
+`;
 
 export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="h-full bg-neutral-100">
-        <div className="mx-auto flex h-dvh max-w-md flex-col border-x border-neutral-200 bg-neutral-50">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="h-full bg-app">
+        <div className="mx-auto flex h-dvh max-w-md flex-col border-line bg-app sm:border-x">
           <main className="flex-1 overflow-y-auto">{children}</main>
           <BottomNav />
         </div>

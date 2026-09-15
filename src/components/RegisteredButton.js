@@ -16,7 +16,7 @@ export default function RegisteredButton({
     return (
       <Link
         href="/login"
-        className="w-full rounded-full border border-neutral-300 py-2.5 text-center text-sm font-semibold text-neutral-600"
+        className="w-full rounded-full border border-line py-2.5 text-center text-sm font-semibold text-muted"
       >
         Log in to track your registration
       </Link>
@@ -49,8 +49,8 @@ export default function RegisteredButton({
       disabled={loading}
       className={`w-full rounded-full border py-2.5 text-sm font-semibold disabled:opacity-60 ${
         isRegistered
-          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-          : "border-neutral-300 text-neutral-600"
+          ? "border-brand bg-brand-soft text-brand"
+          : "border-line text-muted"
       }`}
     >
       {isRegistered ? "✓ I'm registered" : "Mark as registered"}

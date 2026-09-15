@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import PageHeader from "@/components/PageHeader";
 import { distanceInKm, formatDistance } from "@/lib/distance";
 import { iconForType } from "@/lib/icons";
 
@@ -65,31 +66,50 @@ export default function DiscoverList({ places }) {
     : filtered;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Discover</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-        {coords
-          ? "Fitness places nearest to you first"
-          : "Gyms, spas & studios across Delhi"}
-      </p>
-
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search by name, type or area..."
-        className="mt-4 w-full rounded-xl border border-neutral-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-emerald-500"
+    <div className="px-4 pb-6 pt-5">
+      <PageHeader
+        title="Discover"
+        subtitle={
+          coords ? "Nearest to you first" : "Gyms, spas & studios across Delhi"
+        }
       />
+
+      <div className="mt-4 flex gap-2">
+        <div className="relative flex-1">
+          <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-muted">
+            🔍
+          </span>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search name, type or area"
+            className="w-full rounded-xl border border-line bg-surface py-2.5 pl-9 pr-3 text-sm text-ink outline-none placeholder:text-muted focus:border-brand"
+          />
+        </div>
+        <button
+          onClick={useMyLocation}
+          disabled={locating || Boolean(coords)}
+          aria-label="Sort by nearest to me"
+          className={`press flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl border text-base ${
+            coords
+              ? "border-brand bg-brand-soft"
+              : "border-line bg-surface"
+          } disabled:opacity-70`}
+        >
+          {locating ? "…" : "📍"}
+        </button>
+      </div>
 
       <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
         {types.map((type) => (
           <button
             key={type}
             onClick={() => setActiveType(type)}
-            className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold ${
+            className={`press shrink-0 rounded-full border px-3.5 py-1.5 text-xs font-semibold ${
               activeType === type
-                ? "bg-emerald-600 text-white"
-                : "bg-neutral-100 text-neutral-600"
+                ? "border-brand bg-brand text-brand-ink"
+                : "border-line bg-surface text-muted"
             }`}
           >
             {type}
@@ -97,76 +117,90 @@ export default function DiscoverList({ places }) {
         ))}
       </div>
 
-      {!coords && (
-        <button
-          onClick={useMyLocation}
-          disabled={locating}
-          className="mt-3 w-full rounded-xl border border-emerald-600 py-2.5 text-sm font-semibold text-emerald-700 disabled:opacity-60"
-        >
-          {locating ? "Finding you..." : "📍 Sort by what's nearest me"}
-        </button>
-      )}
-
       {locationError && (
-        <p className="mt-2 text-xs text-neutral-500">{locationError}</p>
+        <p className="mt-2 text-xs text-muted">{locationError}</p>
       )}
 
-      <div className="mt-4 flex flex-col gap-4">
+      <p className="mt-4 text-xs font-medium text-muted">
+        {listed.length} {listed.length === 1 ? "place" : "places"}
+      </p>
+
+      <div className="mt-2 flex flex-col gap-3">
         {listed.map((place) => (
           <Link
             key={place.id}
             href={`/place/${place.id}`}
-            className="overflow-hidden rounded-2xl border border-neutral-200 bg-white"
+            className="press card-shadow overflow-hidden rounded-2xl border border-line bg-surface"
           >
             {place.photo_url ? (
-              <img
-                src={place.photo_url}
-                alt={place.name}
-                className="h-40 w-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <div className="flex h-24 w-full items-center justify-center bg-emerald-50 text-4xl">
-                {iconForType(place.type)}
-              </div>
-            )}
-
-            <div className="p-3">
-              <div className="flex items-start justify-between gap-2">
-                <span className="font-semibold text-neutral-900">
-                  {place.name}
-                </span>
-                {place.rating > 0 && (
-                  <span className="shrink-0 rounded-md bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
-                    {place.rating} ★
-                  </span>
-                )}
-              </div>
-
-              <span className="text-sm text-neutral-500">
-                {place.type}
-                {place.area ? ` · ${place.area}` : ""}
-              </span>
-
-              <div className="mt-1 flex items-center justify-between">
-                <span className="text-sm text-neutral-700">
-                  {place.fee ?? "Fee not listed"}
-                </span>
+              <div className="relative">
+                <img
+                  src={place.photo_url}
+                  alt={place.name}
+                  className="h-40 w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
                 {place.distance != null && (
-                  <span className="text-sm font-medium text-emerald-700">
+                  <span className="absolute right-2 top-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-sm">
                     {formatDistance(place.distance)}
                   </span>
                 )}
+              </div>
+            ) : null}
+
+            <div className="flex items-center gap-3 p-3">
+              {!place.photo_url && (
+                <span className="photo-placeholder flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-2xl">
+                  {iconForType(place.type)}
+                </span>
+              )}
+
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="truncate font-semibold text-ink">
+                    {place.name}
+                  </span>
+                  {place.rating > 0 && (
+                    <span className="shrink-0 rounded-md bg-brand px-1.5 py-0.5 text-[11px] font-bold text-brand-ink">
+                      {place.rating} ★
+                    </span>
+                  )}
+                </div>
+
+                <p className="truncate text-xs text-muted">
+                  {place.type}
+                  {place.area ? ` · ${place.area}` : ""}
+                </p>
+
+                <div className="mt-1.5 flex items-center gap-2">
+                  <span
+                    className={`rounded-md px-1.5 py-0.5 text-[11px] font-medium ${
+                      place.fee
+                        ? "bg-brand-soft text-brand"
+                        : "bg-surface-2 text-muted"
+                    }`}
+                  >
+                    {place.fee ?? "Fee not listed"}
+                  </span>
+                  {!place.photo_url && place.distance != null && (
+                    <span className="text-[11px] font-semibold text-brand">
+                      {formatDistance(place.distance)}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </Link>
         ))}
 
         {listed.length === 0 && (
-          <p className="mt-6 text-center text-sm text-neutral-400">
-            No places match your search.
-          </p>
+          <div className="mt-10 text-center">
+            <span className="text-3xl">🔍</span>
+            <p className="mt-2 text-sm text-muted">
+              Nothing matches that search.
+            </p>
+          </div>
         )}
       </div>
     </div>

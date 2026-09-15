@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PageHeader from "@/components/PageHeader";
 import { getUpcomingEvents } from "@/lib/data";
 
 // Served from cache and refreshed in the background, so visits are instant.
@@ -13,60 +14,79 @@ function formatDate(dateStr) {
   });
 }
 
+function daysAway(dateStr) {
+  const days = Math.ceil((new Date(dateStr).getTime() - Date.now()) / 86400000);
+  if (days <= 0) return "Today";
+  if (days === 1) return "Tomorrow";
+  if (days < 30) return `In ${days} days`;
+  return null;
+}
+
 export default async function EventsPage() {
   const events = await getUpcomingEvents();
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-neutral-900">Events</h1>
-      <p className="mt-1 text-sm text-neutral-500">
-        Marathons, tournaments & wellness events
-      </p>
+    <div className="px-4 pb-6 pt-5">
+      <PageHeader
+        title="Events"
+        subtitle="Marathons, tournaments & wellness events"
+      />
 
-      <div className="mt-4 flex flex-col gap-4">
-        {events.map((event) => (
-          <Link
-            key={event.id}
-            href={`/events/${event.id}`}
-            className="block overflow-hidden rounded-2xl border border-neutral-200 bg-white"
-          >
-            {event.photo_url && (
-              <img
-                src={event.photo_url}
-                alt={event.name}
-                className="h-40 w-full object-cover"
-                loading="lazy"
-                decoding="async"
-              />
-            )}
-            <div className="p-4">
-              {event.type && (
-                <span className="inline-block rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
-                  {event.type}
-                </span>
+      <div className="mt-5 flex flex-col gap-3">
+        {events.map((event) => {
+          const soon = daysAway(event.event_date);
+          return (
+            <Link
+              key={event.id}
+              href={`/events/${event.id}`}
+              className="press card-shadow block overflow-hidden rounded-2xl border border-line bg-surface"
+            >
+              {event.photo_url && (
+                <img
+                  src={event.photo_url}
+                  alt={event.name}
+                  className="h-40 w-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
               )}
-              <h2 className="mt-2 font-semibold text-neutral-900">
-                {event.name}
-              </h2>
-              <p className="mt-1 text-sm text-neutral-500">
-                📅 {formatDate(event.event_date)}
-              </p>
-              {event.venue && (
-                <p className="text-sm text-neutral-500">📍 {event.venue}</p>
-              )}
-              {event.organiser && (
-                <p className="mt-1 text-xs text-neutral-400">
-                  Organised by {event.organiser}
+              <div className="p-4">
+                <div className="flex flex-wrap items-center gap-2">
+                  {event.type && (
+                    <span className="rounded-full bg-brand-soft px-2.5 py-0.5 text-[11px] font-semibold text-brand">
+                      {event.type}
+                    </span>
+                  )}
+                  {soon && (
+                    <span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] font-medium text-muted">
+                      {soon}
+                    </span>
+                  )}
+                </div>
+
+                <h2 className="mt-2 font-semibold leading-snug text-ink">
+                  {event.name}
+                </h2>
+
+                <p className="mt-1.5 text-sm text-muted">
+                  📅 {formatDate(event.event_date)}
                 </p>
-              )}
-            </div>
-          </Link>
-        ))}
+                {event.venue && (
+                  <p className="text-sm text-muted">📍 {event.venue}</p>
+                )}
+              </div>
+            </Link>
+          );
+        })}
 
         {events.length === 0 && (
-          <p className="mt-6 text-center text-sm text-neutral-400">
-            No upcoming events listed yet.
-          </p>
+          <div className="mt-12 text-center">
+            <span className="text-4xl">🏃</span>
+            <p className="mt-3 font-semibold text-ink">No events listed yet</p>
+            <p className="mt-1 text-sm text-muted">
+              Upcoming marathons and tournaments will appear here.
+            </p>
+          </div>
         )}
       </div>
     </div>
