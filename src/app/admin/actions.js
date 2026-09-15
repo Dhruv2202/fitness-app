@@ -7,6 +7,10 @@ import { getAdminUser } from "@/lib/admin";
 import { normalizeUrl } from "@/lib/url";
 import { fetchProductMeta } from "@/lib/scrape";
 import { parseMapsUrl, resolveMapsUrl } from "@/lib/maps";
+import { enrichFromCoords } from "@/lib/enrich";
+
+// Kept small so a batch finishes inside the hosting time limit.
+const MAX_BATCH = 8;
 
 function textOrNull(value) {
   const trimmed = (value ?? "").toString().trim();
@@ -79,17 +83,137 @@ export async function lookupMapsLink(_prevState, formData) {
   const link = textOrNull(formData.get("maps_url"));
   if (!link) return { error: "Paste a Google Maps link first" };
 
-  const resolved = await resolveMapsUrl(link);
-  const found = parseMapsUrl(resolved);
-
-  if (found.lat === null) {
+  const found = await placeFromMapsLink(link);
+  if (!found) {
     return {
       error:
-        "Couldn't find coordinates in that link. Open the place in Google Maps and copy the link from the address bar.",
+        "Couldn't find coordinates in that link. Open the place in Google Maps, tap Share, and paste that link.",
     };
   }
 
   return { place: found };
+}
+
+// Turns one Maps link into as complete a place as we can manage.
+async function placeFromMapsLink(link) {
+  const resolved = await resolveMapsUrl(link);
+  const found = parseMapsUrl(resolved);
+  if (found.lat === null) return null;
+
+  const extra = await enrichFromCoords(found.lat, found.lon, found.name);
+
+  // Only take a phone, address or hours when the name actually matched.
+  // A nearby shop's phone number is worse than no phone number.
+  return {
+    ...found,
+    area: extra.area ?? null,
+    address: extra.confident ? (extra.address ?? null) : null,
+    phone: extra.confident ? (extra.phone ?? null) : null,
+    timings: extra.confident ? (extra.timings ?? null) : null,
+    matched: Boolean(extra.confident),
+  };
+}
+
+export async function lookupMapsLinks(_prevState, formData) {
+  const admin = await getAdminUser();
+  if (!admin) return { error: "Not authorised" };
+
+  const links = (formData.get("urls") ?? "")
+    .toString()
+    .split(/[\s,]+/)
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  if (links.length === 0) return { error: "Paste at least one link" };
+
+  const capped = links.slice(0, MAX_BATCH);
+  const settled = await Promise.allSettled(
+    capped.map((link) => placeFromMapsLink(link))
+  );
+
+  return {
+    places: settled
+      .map((r) => (r.status === "fulfilled" ? r.value : null))
+      .filter(Boolean),
+    failed: settled
+      .map((r, i) =>
+        r.status === "rejected" || r.value === null ? capped[i] : null
+      )
+      .filter(Boolean),
+    skipped: links.length > MAX_BATCH ? links.length - MAX_BATCH : 0,
+  };
+}
+
+export async function deleteManyPlaces(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const ids = JSON.parse(formData.get("ids") ?? "[]");
+  if (!Array.isArray(ids) || ids.length === 0) throw new Error("Nothing selected");
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("places")
+    .delete()
+    .in("id", ids)
+    .select("id");
+
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error("Nothing was removed. Your account may lack permission.");
+  }
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function deleteManyProducts(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const ids = JSON.parse(formData.get("ids") ?? "[]");
+  if (!Array.isArray(ids) || ids.length === 0) throw new Error("Nothing selected");
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("products")
+    .delete()
+    .in("id", ids)
+    .select("id");
+
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error("Nothing was removed. Your account may lack permission.");
+  }
+
+  revalidatePath("/shop");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
+export async function deleteManyEvents(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const ids = JSON.parse(formData.get("ids") ?? "[]");
+  if (!Array.isArray(ids) || ids.length === 0) throw new Error("Nothing selected");
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("events")
+    .delete()
+    .in("id", ids)
+    .select("id");
+
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error("Nothing was removed. Your account may lack permission.");
+  }
+
+  revalidatePath("/events");
+  revalidatePath("/admin");
+  redirect("/admin");
 }
 
 export async function savePlace(formData) {
@@ -159,8 +283,20 @@ export async function deletePlace(formData) {
 
   const id = textOrNull(formData.get("id"));
   const supabase = await createClient();
-  const { error } = await supabase.from("places").delete().eq("id", id);
+  // .select() makes the deleted rows come back. Without it a blocked delete
+  // looks identical to a successful one: no error, nothing removed.
+  const { data, error } = await supabase
+    .from("places")
+    .delete()
+    .eq("id", id)
+    .select("id");
+
   if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error(
+      "That place was not removed. Your account may no longer have permission."
+    );
+  }
 
   revalidatePath("/");
   revalidatePath("/admin");
@@ -183,9 +319,6 @@ export async function lookupProduct(_prevState, formData) {
 
   return { product: { ...meta, photo_url: await storeImage(meta.image) } };
 }
-
-// Kept small so a batch finishes inside the hosting time limit.
-const MAX_BATCH = 8;
 
 export async function lookupProducts(_prevState, formData) {
   const admin = await getAdminUser();
@@ -282,8 +415,20 @@ export async function deleteProduct(formData) {
 
   const id = textOrNull(formData.get("id"));
   const supabase = await createClient();
-  const { error } = await supabase.from("products").delete().eq("id", id);
+  // .select() makes the deleted rows come back. Without it a blocked delete
+  // looks identical to a successful one: no error, nothing removed.
+  const { data, error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", id)
+    .select("id");
+
   if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error(
+      "That product was not removed. Your account may no longer have permission."
+    );
+  }
 
   revalidatePath("/shop");
   revalidatePath("/admin");
@@ -327,8 +472,20 @@ export async function deleteEvent(formData) {
 
   const id = textOrNull(formData.get("id"));
   const supabase = await createClient();
-  const { error } = await supabase.from("events").delete().eq("id", id);
+  // .select() makes the deleted rows come back. Without it a blocked delete
+  // looks identical to a successful one: no error, nothing removed.
+  const { data, error } = await supabase
+    .from("events")
+    .delete()
+    .eq("id", id)
+    .select("id");
+
   if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error(
+      "That event was not removed. Your account may no longer have permission."
+    );
+  }
 
   revalidatePath("/events");
   revalidatePath("/admin");
