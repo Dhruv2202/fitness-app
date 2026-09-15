@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/admin";
 import { normalizeUrl } from "@/lib/url";
+import { fetchProductMeta } from "@/lib/scrape";
 
 function textOrNull(value) {
   const trimmed = (value ?? "").toString().trim();
@@ -111,6 +112,52 @@ export async function deletePlace(formData) {
   revalidatePath("/");
   revalidatePath("/admin");
   redirect("/admin");
+}
+
+export async function lookupProduct(_prevState, formData) {
+  const admin = await getAdminUser();
+  if (!admin) return { error: "Not authorised" };
+
+  const link = textOrNull(formData.get("lookup_url"));
+  if (!link) return { error: "Paste a product link first" };
+
+  let meta;
+  try {
+    meta = await fetchProductMeta(link);
+  } catch (e) {
+    return { error: e.message };
+  }
+
+  // Copy the image into our own storage. Hotlinking a brand's CDN breaks the
+  // moment they move or remove the file.
+  let photoUrl = null;
+  if (meta.image) {
+    try {
+      const res = await fetch(meta.image);
+      if (res.ok) {
+        const type = res.headers.get("content-type") ?? "image/jpeg";
+        const extension = type.includes("png")
+          ? "png"
+          : type.includes("webp")
+            ? "webp"
+            : "jpg";
+        const supabase = await createClient();
+        const path = `${crypto.randomUUID()}.${extension}`;
+        const { error: uploadError } = await supabase.storage
+          .from("photos")
+          .upload(path, await res.arrayBuffer(), { contentType: type });
+
+        if (!uploadError) {
+          photoUrl = supabase.storage.from("photos").getPublicUrl(path)
+            .data.publicUrl;
+        }
+      }
+    } catch {
+      // A missing image is not worth failing the whole lookup over.
+    }
+  }
+
+  return { product: { ...meta, photo_url: photoUrl } };
 }
 
 export async function saveProduct(formData) {
