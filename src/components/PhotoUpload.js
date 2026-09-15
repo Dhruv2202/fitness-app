@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { compressImage } from "@/lib/compressImage";
 
 export default function PhotoUpload({ name, initialUrl }) {
   const [url, setUrl] = useState(initialUrl ?? "");
@@ -15,13 +16,19 @@ export default function PhotoUpload({ name, initialUrl }) {
     setError("");
     setUploading(true);
 
+    const compressed = await compressImage(file);
+    const isJpeg = compressed !== file;
+
     const supabase = createClient();
-    const extension = file.name.split(".").pop();
+    const extension = isJpeg ? "jpg" : file.name.split(".").pop();
     const path = `${crypto.randomUUID()}.${extension}`;
 
     const { error: uploadError } = await supabase.storage
       .from("photos")
-      .upload(path, file, { upsert: false });
+      .upload(path, compressed, {
+        upsert: false,
+        contentType: isJpeg ? "image/jpeg" : file.type,
+      });
 
     if (uploadError) {
       setError(uploadError.message);
