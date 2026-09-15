@@ -67,16 +67,16 @@ export default function PlaceForm({ place }) {
         className="card-shadow mt-4 rounded-2xl border border-line bg-surface p-3"
       >
         <label className="block text-xs font-semibold text-ink">
-          Paste a Google Maps link
+          Paste a link
         </label>
         <p className="mt-0.5 text-xs text-muted">
-          Find the place in Google Maps, tap Share, and paste the link. Fills in
-          the coordinates for you.
+          A Google Maps share link gives the location. The gym's own website
+          usually gives a photo, and sometimes the address and phone.
         </p>
         <input
           type="text"
           name="maps_url"
-          placeholder="https://maps.app.goo.gl/..."
+          placeholder="Maps link or the gym's website"
           className={inputClass}
         />
         <button
@@ -91,7 +91,7 @@ export default function PlaceForm({ place }) {
         )}
         {state?.place && !state.error && (
           <p className="mt-2 text-xs text-brand">
-            Location found — filled in below.
+            Found it — filled in below.
           </p>
         )}
       </form>

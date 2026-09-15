@@ -33,11 +33,12 @@ export default function BulkPlaces() {
       </Link>
 
       <h1 className="mt-2 text-xl font-bold text-ink">
-        Add places from Maps links
+        Add places from links
       </h1>
       <p className="mt-1 text-sm text-muted">
-        Paste Google Maps links, one per line. We read the location from each,
-        then look up the address, phone and hours. Up to 8 at a time.
+        Paste links, one per line — Google Maps share links, or the gyms' own
+        websites. Maps gives the location, a website usually gives a photo.
+        Up to 8 at a time.
       </p>
 
       <form action={lookupAction} className="mt-4 flex flex-col gap-2">
@@ -63,7 +64,7 @@ export default function BulkPlaces() {
       {state?.failed?.length > 0 && (
         <div className="mt-3 rounded-xl border border-line bg-surface-2 p-3">
           <p className="text-xs font-semibold text-ink">
-            No location found in {state.failed.length} link
+            Couldn't read {state.failed.length} link
             {state.failed.length === 1 ? "" : "s"}
           </p>
           {state.failed.map((link) => (
@@ -86,7 +87,7 @@ export default function BulkPlaces() {
             Check these, then add ({rows.length})
           </h2>
           <p className="mt-1 text-xs text-muted">
-            Anything blank wasn&apos;t in OpenStreetMap — type it in yourself.
+            Anything blank couldn&apos;t be found — type it in yourself.
           </p>
 
           <div className="mt-2 flex flex-col gap-3">
@@ -96,6 +97,13 @@ export default function BulkPlaces() {
                 className="rounded-2xl border border-line bg-surface p-3"
               >
                 <div className="flex items-start gap-2">
+                  {row.photo_url && (
+                    <img
+                      src={row.photo_url}
+                      alt=""
+                      className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                    />
+                  )}
                   <input
                     value={row.name ?? ""}
                     onChange={(e) => update(i, "name", e.target.value)}
@@ -152,8 +160,10 @@ export default function BulkPlaces() {
                 </div>
 
                 <p className="mt-2 text-[11px] text-muted">
-                  📍 {row.lat?.toFixed(5)}, {row.lon?.toFixed(5)}
-                  {row.matched ? " · details matched" : " · location only"}
+                  {row.lat != null
+                    ? `📍 ${row.lat.toFixed(5)}, ${row.lon.toFixed(5)}`
+                    : "⚠️ No location — add coordinates before it can show in distance sorting"}
+                  {row.matched ? " · details found" : ""}
                 </p>
               </div>
             ))}

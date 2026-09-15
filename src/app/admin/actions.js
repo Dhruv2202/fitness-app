@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/admin";
 import { normalizeUrl } from "@/lib/url";
-import { fetchProductMeta } from "@/lib/scrape";
+import { fetchProductMeta, fetchPlaceMeta } from "@/lib/scrape";
 import { parseMapsUrl, resolveMapsUrl } from "@/lib/maps";
 import { enrichFromCoords } from "@/lib/enrich";
 
@@ -83,34 +83,64 @@ export async function lookupMapsLink(_prevState, formData) {
   const link = textOrNull(formData.get("maps_url"));
   if (!link) return { error: "Paste a Google Maps link first" };
 
-  const found = await placeFromMapsLink(link);
+  const found = await placeFromLink(link);
   if (!found) {
     return {
       error:
-        "Couldn't find coordinates in that link. Open the place in Google Maps, tap Share, and paste that link.",
+        "Couldn't read that link. Paste a Google Maps share link, or the business's own website address.",
     };
   }
 
   return { place: found };
 }
 
-// Turns one Maps link into as complete a place as we can manage.
-async function placeFromMapsLink(link) {
-  const resolved = await resolveMapsUrl(link);
-  const found = parseMapsUrl(resolved);
-  if (found.lat === null) return null;
+const isMapsLink = (link) => /google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps/i.test(link);
 
-  const extra = await enrichFromCoords(found.lat, found.lon, found.name);
+// Accepts either a Google Maps link or the business's own website, and takes
+// whatever each can give. A Maps link is authoritative for position; a website
+// usually carries the address, phone, hours and a usable photo.
+async function placeFromLink(link) {
+  if (isMapsLink(link)) {
+    const resolved = await resolveMapsUrl(link);
+    const found = parseMapsUrl(resolved);
+    if (found.lat === null) return null;
 
-  // Only take a phone, address or hours when the name actually matched.
-  // A nearby shop's phone number is worse than no phone number.
+    const extra = await enrichFromCoords(found.lat, found.lon, found.name);
+
+    // Only take a phone, address or hours when the name actually matched.
+    // A nearby shop's phone number is worse than no phone number.
+    return {
+      ...found,
+      area: extra.area ?? null,
+      address: extra.confident ? (extra.address ?? null) : null,
+      phone: extra.confident ? (extra.phone ?? null) : null,
+      timings: extra.confident ? (extra.timings ?? null) : null,
+      photo_url: null,
+      matched: Boolean(extra.confident),
+      from: "maps",
+    };
+  }
+
+  const site = await fetchPlaceMeta(link);
+
+  // A site that publishes its own coordinates lets us fill the gaps from
+  // OpenStreetMap too.
+  let extra = {};
+  if (site.lat !== null && site.lon !== null) {
+    extra = await enrichFromCoords(site.lat, site.lon, site.name);
+  }
+
   return {
-    ...found,
-    area: extra.area ?? null,
-    address: extra.confident ? (extra.address ?? null) : null,
-    phone: extra.confident ? (extra.phone ?? null) : null,
-    timings: extra.confident ? (extra.timings ?? null) : null,
-    matched: Boolean(extra.confident),
+    name: site.name,
+    lat: site.lat,
+    lon: site.lon,
+    area: site.area ?? extra.area ?? null,
+    address: site.address ?? (extra.confident ? extra.address : null),
+    phone: site.phone ?? (extra.confident ? extra.phone : null),
+    timings: site.timings ?? (extra.confident ? extra.timings : null),
+    photo_url: await storeImage(site.image),
+    matched: Boolean(site.address || site.phone),
+    from: "website",
   };
 }
 
@@ -128,7 +158,7 @@ export async function lookupMapsLinks(_prevState, formData) {
 
   const capped = links.slice(0, MAX_BATCH);
   const settled = await Promise.allSettled(
-    capped.map((link) => placeFromMapsLink(link))
+    capped.map((link) => placeFromLink(link))
   );
 
   return {
@@ -265,6 +295,7 @@ export async function importPlaces(formData) {
           : null,
       lat: Number.isFinite(row.lat) ? row.lat : null,
       lon: Number.isFinite(row.lon) ? row.lon : null,
+      photo_url: row.photo_url ?? null,
       amenities: Array.isArray(row.amenities) ? row.amenities : [],
     }));
 

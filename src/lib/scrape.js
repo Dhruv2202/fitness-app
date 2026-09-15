@@ -68,7 +68,118 @@ function fromJsonLd(html) {
   return {};
 }
 
-export async function fetchProductMeta(rawUrl) {
+const BUSINESS_TYPES = [
+  "LocalBusiness",
+  "HealthClub",
+  "ExerciseGym",
+  "SportsActivityLocation",
+  "SportsClub",
+  "DaySpa",
+  "HealthAndBeautyBusiness",
+  "Organization",
+];
+
+function nodesOf(parsed) {
+  const nodes = Array.isArray(parsed) ? parsed : (parsed["@graph"] ?? [parsed]);
+  return nodes.filter(Boolean);
+}
+
+// A business's own site often publishes its address, phone and hours as
+// structured data, which is exactly what a Maps link can't give us.
+function businessFromJsonLd(html) {
+  const blocks = [
+    ...html.matchAll(
+      /<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi
+    ),
+  ];
+
+  for (const [, raw] of blocks) {
+    let parsed;
+    try {
+      parsed = JSON.parse(raw.trim());
+    } catch {
+      continue;
+    }
+
+    for (const node of nodesOf(parsed)) {
+      const types = [node["@type"]].flat().filter(Boolean);
+      if (!types.some((t) => BUSINESS_TYPES.includes(t))) continue;
+
+      const addr = node.address;
+      const address =
+        typeof addr === "string"
+          ? addr
+          : addr
+            ? [
+                addr.streetAddress,
+                addr.addressLocality,
+                addr.addressRegion,
+                addr.postalCode,
+              ]
+                .filter(Boolean)
+                .join(", ")
+            : null;
+
+      const hours = node.openingHours
+        ? [node.openingHours].flat().join(", ")
+        : Array.isArray(node.openingHoursSpecification)
+          ? node.openingHoursSpecification
+              .map((s) => {
+                const days = [s.dayOfWeek]
+                  .flat()
+                  .filter(Boolean)
+                  .map((d) => String(d).split("/").pop().slice(0, 2))
+                  .join(",");
+                return s.opens && s.closes
+                  ? `${days} ${s.opens}-${s.closes}`
+                  : null;
+              })
+              .filter(Boolean)
+              .join("; ")
+          : null;
+
+      const image = Array.isArray(node.image) ? node.image[0] : node.image;
+
+      return {
+        name: typeof node.name === "string" ? node.name : null,
+        address: address || null,
+        area: typeof addr === "object" ? (addr?.addressLocality ?? null) : null,
+        phone: node.telephone ?? null,
+        timings: hours || null,
+        image: typeof image === "string" ? image : (image?.url ?? null),
+        lat: node.geo?.latitude ? Number(node.geo.latitude) : null,
+        lon: node.geo?.longitude ? Number(node.geo.longitude) : null,
+      };
+    }
+  }
+  return {};
+}
+
+export async function fetchPlaceMeta(rawUrl) {
+  const { html, host } = await loadPage(rawUrl);
+  const found = businessFromJsonLd(html);
+
+  const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];
+
+  return {
+    name: firstOf(
+      found.name,
+      metaContent(html, "og:site_name"),
+      metaContent(html, "og:title"),
+      title ? decode(title.trim()) : null
+    ),
+    address: found.address ?? null,
+    area: found.area ?? null,
+    phone: firstOf(found.phone, null),
+    timings: found.timings ?? null,
+    image: firstOf(found.image, metaContent(html, "og:image")),
+    lat: Number.isFinite(found.lat) ? found.lat : null,
+    lon: Number.isFinite(found.lon) ? found.lon : null,
+    source: host,
+  };
+}
+
+async function loadPage(rawUrl) {
   const url = normalizeUrl(rawUrl);
   if (!url) throw new Error("That doesn't look like a web address");
 
@@ -82,7 +193,7 @@ export async function fetchProductMeta(rawUrl) {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
-      // Some shops serve a stripped page to anything that doesn't look like a
+      // Some sites serve a stripped page to anything that doesn't look like a
       // real browser, and the stripped version has no metadata in it.
       Accept:
         "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
@@ -92,8 +203,11 @@ export async function fetchProductMeta(rawUrl) {
   });
 
   if (!res.ok) throw new Error(`The site returned ${res.status}`);
-  const html = (await res.text()).slice(0, 1500000);
+  return { html: (await res.text()).slice(0, 1500000), host, url };
+}
 
+export async function fetchProductMeta(rawUrl) {
+  const { html, host, url } = await loadPage(rawUrl);
   const jsonLd = fromJsonLd(html);
 
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1];

@@ -13,6 +13,7 @@ export default function AdminSection({
 }) {
   const [selected, setSelected] = useState([]);
   const [picking, setPicking] = useState(false);
+  const [confirming, setConfirming] = useState(false);
 
   const allSelected = items.length > 0 && selected.length === items.length;
 
@@ -27,6 +28,7 @@ export default function AdminSection({
   function leaveSelectMode() {
     setPicking(false);
     setSelected([]);
+    setConfirming(false);
   }
 
   return (
@@ -73,26 +75,34 @@ export default function AdminSection({
 
           <span className="text-xs text-muted">{selected.length} selected</span>
 
-          <form
-            action={deleteAction}
-            onSubmit={(e) => {
-              if (
-                !window.confirm(
-                  `Delete ${selected.length} item${selected.length === 1 ? "" : "s"}? This cannot be undone.`
-                )
-              ) {
-                e.preventDefault();
-              }
-            }}
-          >
+          <form action={deleteAction}>
             <input type="hidden" name="ids" value={JSON.stringify(selected)} />
-            <button
-              type="submit"
-              disabled={selected.length === 0}
-              className="press rounded-full bg-rose-500 px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-40"
-            >
-              Delete
-            </button>
+            {confirming ? (
+              <div className="flex gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => setConfirming(false)}
+                  className="press rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-ink"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="press rounded-full bg-rose-500 px-3 py-1.5 text-xs font-semibold text-white"
+                >
+                  Delete {selected.length}?
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirming(true)}
+                disabled={selected.length === 0}
+                className="press rounded-full bg-rose-500 px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-40"
+              >
+                Delete
+              </button>
+            )}
           </form>
         </div>
       )}
