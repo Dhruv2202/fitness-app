@@ -1,5 +1,7 @@
 import Link from "next/link";
 import PhotoUpload from "@/components/PhotoUpload";
+import SubmitButton from "@/components/SubmitButton";
+import DeleteButton from "@/components/DeleteButton";
 import { savePlace, deletePlace } from "@/app/admin/actions";
 import { PLACE_TYPES } from "@/lib/icons";
 
@@ -112,23 +114,19 @@ export default function PlaceForm({ place }) {
           right-clicking the spot in Google Maps and copying the numbers.
         </p>
 
-        <button
-          type="submit"
-          className="mt-2 rounded-full bg-emerald-600 py-2.5 text-sm font-semibold text-white"
-        >
-          {place ? "Save changes" : "Add place"}
-        </button>
+        <SubmitButton
+          label={place ? "Save changes" : "Add place"}
+          pendingLabel={place ? "Saving..." : "Adding..."}
+        />
       </form>
 
       {place && (
         <form action={deletePlace} className="mt-3">
           <input type="hidden" name="id" value={place.id} />
-          <button
-            type="submit"
-            className="w-full rounded-full border border-rose-300 py-2.5 text-sm font-semibold text-rose-600"
-          >
-            Delete this place
-          </button>
+          <DeleteButton
+            label="Delete this place"
+            confirmText={`Delete "${place.name}"? This cannot be undone.`}
+          />
         </form>
       )}
     </div>

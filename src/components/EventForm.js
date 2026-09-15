@@ -1,5 +1,7 @@
 import Link from "next/link";
 import PhotoUpload from "@/components/PhotoUpload";
+import SubmitButton from "@/components/SubmitButton";
+import DeleteButton from "@/components/DeleteButton";
 import { saveEvent, deleteEvent } from "@/app/admin/actions";
 
 const inputClass =
@@ -75,23 +77,19 @@ export default function EventForm({ event }) {
           />
         </label>
 
-        <button
-          type="submit"
-          className="mt-2 rounded-full bg-emerald-600 py-2.5 text-sm font-semibold text-white"
-        >
-          {event ? "Save changes" : "Add event"}
-        </button>
+        <SubmitButton
+          label={event ? "Save changes" : "Add event"}
+          pendingLabel={event ? "Saving..." : "Adding..."}
+        />
       </form>
 
       {event && (
         <form action={deleteEvent} className="mt-3">
           <input type="hidden" name="id" value={event.id} />
-          <button
-            type="submit"
-            className="w-full rounded-full border border-rose-300 py-2.5 text-sm font-semibold text-rose-600"
-          >
-            Delete this event
-          </button>
+          <DeleteButton
+            label="Delete this event"
+            confirmText={`Delete "${event.name}"? This cannot be undone.`}
+          />
         </form>
       )}
     </div>
