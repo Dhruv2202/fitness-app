@@ -566,8 +566,25 @@ export async function fillPhotos(_prevState) {
     .limit(PHOTO_BATCH);
 
   if (readError) return { error: readError.message };
+
+  // "Nothing to do" has two very different causes, and saying the wrong one
+  // hides a real problem — an import that dropped the website column reads
+  // exactly like a job well done.
   if (!pending?.length) {
-    return { done: 0, failed: [], remaining: 0, message: "Every place with a website already has a photo." };
+    const { count: withSite } = await supabase
+      .from("places")
+      .select("id", { count: "exact", head: true })
+      .not("website", "is", null);
+
+    return {
+      done: 0,
+      failed: [],
+      remaining: 0,
+      message:
+        withSite
+          ? `All ${withSite} place${withSite === 1 ? "" : "s"} with a website already have a photo.`
+          : "No place has a website yet, so there is nothing to fetch. Add a website to a place, or include a website column in your CSV.",
+    };
   }
 
   const results = await Promise.allSettled(
