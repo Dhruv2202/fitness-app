@@ -107,8 +107,8 @@ export default function SignupPage() {
         {step === "details" ? "About you" : "Create your account"}
       </h1>
       <p className="mt-1 text-sm text-muted">
-        {step === "email" && "We'll email you a code to confirm it's you."}
-        {step === "code" && `Enter the 6-digit code sent to ${email}.`}
+        {step === "email" && "We'll email you a link to confirm it's you."}
+        {step === "code" && `Open the link we sent to ${email} on this device.`}
         {step === "details" && "This helps us tailor what we show you."}
       </p>
 
@@ -129,7 +129,7 @@ export default function SignupPage() {
             disabled={loading}
             className="press mt-1 rounded-xl bg-brand py-2.5 text-sm font-semibold text-brand-ink disabled:opacity-60"
           >
-            {loading ? "Sending code..." : "Send me a code"}
+            {loading ? "Sending..." : "Send me a link"}
           </button>
         </form>
       )}
@@ -140,10 +140,9 @@ export default function SignupPage() {
             type="text"
             inputMode="numeric"
             autoComplete="one-time-code"
-            required
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder="6-digit code"
+            placeholder="Or paste a 6-digit code"
             className={`${inputClass} text-center text-lg tracking-[0.4em]`}
           />
           {error && <p className="text-sm text-rose-500">{error}</p>}

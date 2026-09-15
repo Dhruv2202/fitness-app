@@ -80,10 +80,10 @@ export default function LoginPage() {
     <div className="px-4 pb-8 pt-6">
       <h1 className="text-2xl font-bold text-ink">Log in</h1>
       <p className="mt-1 text-sm text-muted">
-        {mode === "code" && step === "email" && "We'll email you a login code."}
+        {mode === "code" && step === "email" && "We'll email you a link to sign in."}
         {mode === "code" &&
           step === "code" &&
-          `Enter the code sent to ${email}.`}
+          `Open the link we sent to ${email} on this device.`}
         {mode === "password" && "Welcome back."}
       </p>
 
@@ -104,7 +104,7 @@ export default function LoginPage() {
             disabled={loading}
             className="press mt-1 rounded-xl bg-brand py-2.5 text-sm font-semibold text-brand-ink disabled:opacity-60"
           >
-            {loading ? "Sending code..." : "Email me a code"}
+            {loading ? "Sending..." : "Email me a sign-in link"}
           </button>
           <button
             type="button"
@@ -125,10 +125,9 @@ export default function LoginPage() {
             type="text"
             inputMode="numeric"
             autoComplete="one-time-code"
-            required
             value={code}
             onChange={(e) => setCode(e.target.value)}
-            placeholder="6-digit code"
+            placeholder="Or paste a 6-digit code"
             className={`${inputClass} text-center text-lg tracking-[0.4em]`}
           />
           {error && <p className="text-sm text-rose-500">{error}</p>}
@@ -186,7 +185,7 @@ export default function LoginPage() {
             }}
             className="text-sm text-muted"
           >
-            Email me a code instead
+            Email me a link instead
           </button>
           <Link
             href="/forgot-password"
