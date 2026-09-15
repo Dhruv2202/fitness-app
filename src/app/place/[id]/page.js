@@ -79,7 +79,7 @@ export default async function PlaceDetailPage({ params }) {
         </div>
 
         <div className="mt-3 flex items-center gap-3 text-sm">
-          {place.rating && (
+          {place.rating > 0 && (
             <span className="rounded-md bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
               {place.rating} ★
             </span>

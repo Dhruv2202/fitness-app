@@ -46,14 +46,22 @@ export default function DiscoverList({ places }) {
     return matchesQuery && matchesType;
   });
 
+  // Places without coordinates still belong in the list; they just can't be
+  // ranked, so they follow the ones that can.
   const listed = coords
-    ? filtered
-        .filter((place) => place.lat !== null && place.lon !== null)
+    ? [...filtered]
         .map((place) => ({
           ...place,
-          distance: distanceInKm(coords.lat, coords.lon, place.lat, place.lon),
+          distance:
+            place.lat === null || place.lon === null
+              ? null
+              : distanceInKm(coords.lat, coords.lon, place.lat, place.lon),
         }))
-        .sort((a, b) => a.distance - b.distance)
+        .sort((a, b) => {
+          if (a.distance === null) return b.distance === null ? 0 : 1;
+          if (b.distance === null) return -1;
+          return a.distance - b.distance;
+        })
     : filtered;
 
   return (
@@ -129,7 +137,7 @@ export default function DiscoverList({ places }) {
                 <span className="font-semibold text-neutral-900">
                   {place.name}
                 </span>
-                {place.rating && (
+                {place.rating > 0 && (
                   <span className="shrink-0 rounded-md bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
                     {place.rating} ★
                   </span>
@@ -145,7 +153,7 @@ export default function DiscoverList({ places }) {
                 <span className="text-sm text-neutral-700">
                   {place.fee ?? "Fee not listed"}
                 </span>
-                {place.distance !== undefined && (
+                {place.distance != null && (
                   <span className="text-sm font-medium text-emerald-700">
                     {formatDistance(place.distance)}
                   </span>

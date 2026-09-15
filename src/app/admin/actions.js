@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/admin";
+import { normalizeUrl } from "@/lib/url";
 
 function textOrNull(value) {
   const trimmed = (value ?? "").toString().trim();
@@ -121,13 +122,13 @@ export async function saveProduct(formData) {
     brand: textOrNull(formData.get("brand")),
     name: textOrNull(formData.get("name")),
     price: textOrNull(formData.get("price")),
-    buy_url: textOrNull(formData.get("buy_url")),
+    buy_url: normalizeUrl(formData.get("buy_url")),
     photo_url: textOrNull(formData.get("photo_url")),
   };
 
   if (!values.brand) throw new Error("Brand is required");
   if (!values.name) throw new Error("Name is required");
-  if (!values.buy_url) throw new Error("Buy link is required");
+  if (!values.buy_url) throw new Error("Buy link must be a valid web address");
 
   const supabase = await createClient();
   const { error } = id
@@ -167,7 +168,7 @@ export async function saveEvent(formData) {
     organiser: textOrNull(formData.get("organiser")),
     type: textOrNull(formData.get("type")),
     description: textOrNull(formData.get("description")),
-    registration_url: textOrNull(formData.get("registration_url")),
+    registration_url: normalizeUrl(formData.get("registration_url")),
     photo_url: textOrNull(formData.get("photo_url")),
   };
 
