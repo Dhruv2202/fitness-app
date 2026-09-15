@@ -58,6 +58,46 @@ export async function savePlace(formData) {
   redirect("/admin");
 }
 
+const VALID_TYPES = ["Gym", "Spa", "Yoga Studio", "Activity Centre"];
+
+export async function importPlaces(formData) {
+  const admin = await getAdminUser();
+  if (!admin) throw new Error("Not authorised");
+
+  const payload = formData.get("places");
+  const rows = JSON.parse(payload ?? "[]");
+  if (!Array.isArray(rows) || rows.length === 0) {
+    throw new Error("Nothing to import");
+  }
+
+  const values = rows
+    .filter((row) => row?.name)
+    .map((row) => ({
+      name: String(row.name).slice(0, 200),
+      type: VALID_TYPES.includes(row.type) ? row.type : "Gym",
+      area: row.area ?? null,
+      address: row.address ?? null,
+      phone: row.phone ?? null,
+      fee: row.fee ?? null,
+      timings: row.timings ?? null,
+      rating:
+        Number.isFinite(row.rating) && row.rating >= 0 && row.rating <= 5
+          ? row.rating
+          : null,
+      lat: Number.isFinite(row.lat) ? row.lat : null,
+      lon: Number.isFinite(row.lon) ? row.lon : null,
+      amenities: Array.isArray(row.amenities) ? row.amenities : [],
+    }));
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("places").insert(values);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  redirect("/admin");
+}
+
 export async function deletePlace(formData) {
   const admin = await getAdminUser();
   if (!admin) throw new Error("Not authorised");

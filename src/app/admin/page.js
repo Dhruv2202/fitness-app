@@ -55,16 +55,25 @@ export default async function AdminPage() {
         <h2 className="text-sm font-semibold text-neutral-900">
           Places ({places.length})
         </h2>
-        <Link
-          href="/admin/places/new"
-          className="rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white"
-        >
-          + Add place
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href="/admin/import"
+            className="rounded-full border border-neutral-300 px-3 py-1.5 text-xs font-semibold text-neutral-700"
+          >
+            ⬆ Import
+          </Link>
+          <Link
+            href="/admin/places/new"
+            className="rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white"
+          >
+            + Add place
+          </Link>
+        </div>
       </div>
 
       <p className="mt-1 text-xs text-neutral-400">
-        Tap any place to add a photo, phone number, fee or timings.
+        Tap any place to add a photo, phone number, fee or timings. Use Import to
+        add many at once from a spreadsheet.
       </p>
 
       <div className="mt-2 flex flex-col gap-2">
