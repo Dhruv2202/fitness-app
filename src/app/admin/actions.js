@@ -83,7 +83,14 @@ export async function lookupMapsLink(_prevState, formData) {
   const link = textOrNull(formData.get("maps_url"));
   if (!link) return { error: "Paste a Google Maps link first" };
 
-  const found = await placeFromLink(link);
+  let found;
+  try {
+    found = await placeFromLink(link);
+  } catch (e) {
+    // An unreachable or blocked site must not take the whole page down.
+    return { error: `Couldn't reach that link (${e.message}).` };
+  }
+
   if (!found) {
     return {
       error:
@@ -91,7 +98,11 @@ export async function lookupMapsLink(_prevState, formData) {
     };
   }
 
-  return { place: found };
+  const filled = ["address", "phone", "timings", "photo_url"].filter(
+    (k) => found[k]
+  );
+
+  return { place: found, filled };
 }
 
 const isMapsLink = (link) => /google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps/i.test(link);
@@ -195,7 +206,6 @@ export async function deleteManyPlaces(formData) {
 
   revalidatePath("/");
   revalidatePath("/admin");
-  redirect("/admin");
 }
 
 export async function deleteManyProducts(formData) {
@@ -219,7 +229,6 @@ export async function deleteManyProducts(formData) {
 
   revalidatePath("/shop");
   revalidatePath("/admin");
-  redirect("/admin");
 }
 
 export async function deleteManyEvents(formData) {
@@ -243,7 +252,6 @@ export async function deleteManyEvents(formData) {
 
   revalidatePath("/events");
   revalidatePath("/admin");
-  redirect("/admin");
 }
 
 export async function savePlace(formData) {

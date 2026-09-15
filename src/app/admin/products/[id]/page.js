@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import GoneNotice from "@/components/GoneNotice";
 import ProductForm from "@/components/ProductForm";
 import { getAdminUser } from "@/lib/admin";
 import { getProduct } from "@/lib/data";

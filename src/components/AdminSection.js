@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function AdminSection({
@@ -14,6 +14,17 @@ export default function AdminSection({
   const [selected, setSelected] = useState([]);
   const [picking, setPicking] = useState(false);
   const [confirming, setConfirming] = useState(false);
+
+  // A delete refreshes this list in place rather than navigating, so drop any
+  // ids that have just gone.
+  useEffect(() => {
+    const live = new Set(items.map((i) => i.id));
+    setSelected((current) => {
+      const kept = current.filter((id) => live.has(id));
+      return kept.length === current.length ? current : kept;
+    });
+    setConfirming(false);
+  }, [items]);
 
   const allSelected = items.length > 0 && selected.length === items.length;
 

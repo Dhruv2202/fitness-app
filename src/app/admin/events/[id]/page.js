@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import GoneNotice from "@/components/GoneNotice";
 import EventForm from "@/components/EventForm";
 import { getAdminUser } from "@/lib/admin";
 import { getEvent } from "@/lib/data";

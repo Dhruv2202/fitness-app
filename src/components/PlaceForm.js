@@ -40,16 +40,29 @@ export default function PlaceForm({ place }) {
   );
   const [lat, setLat] = useState(place?.lat ?? "");
   const [lon, setLon] = useState(place?.lon ?? "");
+  const [photoUrl, setPhotoUrl] = useState(place?.photo_url ?? "");
 
   const [state, lookupAction, looking] = useActionState(lookupMapsLink, {});
 
+  // Fill in everything the lookup managed to find. Existing values are kept,
+  // so running this on a record you've already edited never wipes your work.
   useEffect(() => {
     const found = state?.place;
     if (!found) return;
-    if (found.lat !== null) setLat(String(found.lat));
-    if (found.lon !== null) setLon(String(found.lon));
-    // Only fill the name if it's still blank, so an edit isn't overwritten.
-    if (found.name) setName((current) => current || found.name);
+
+    const fillIfEmpty = (setter, value) => {
+      if (value === null || value === undefined || value === "") return;
+      setter((current) => current || String(value));
+    };
+
+    fillIfEmpty(setName, found.name);
+    fillIfEmpty(setArea, found.area);
+    fillIfEmpty(setAddress, found.address);
+    fillIfEmpty(setPhone, found.phone);
+    fillIfEmpty(setTimings, found.timings);
+    fillIfEmpty(setLat, found.lat);
+    fillIfEmpty(setLon, found.lon);
+    if (found.photo_url) setPhotoUrl(found.photo_url);
   }, [state]);
 
   return (
@@ -91,7 +104,11 @@ export default function PlaceForm({ place }) {
         )}
         {state?.place && !state.error && (
           <p className="mt-2 text-xs text-brand">
-            Found it — filled in below.
+            {state.filled?.length
+              ? `Found: ${state.filled
+                  .map((f) => (f === "photo_url" ? "photo" : f))
+                  .join(", ")}. Check below.`
+              : "Found the location only — everything else needs typing in."}
           </p>
         )}
       </form>
@@ -116,7 +133,7 @@ export default function PlaceForm({ place }) {
           </select>
         </label>
 
-        <PhotoUpload name="photo_url" initialUrl={place?.photo_url} />
+        <PhotoUpload key={photoUrl} name="photo_url" initialUrl={photoUrl} />
 
         <Field
           label="Area"
