@@ -5,9 +5,11 @@ import { createClient } from "@/lib/supabase/server";
 
 export const metadata = { title: "Your details" };
 
-export default async function EditProfilePage() {
+export default async function EditProfilePage({ searchParams }) {
   const user = await getOptionalUser();
   if (!user) redirect("/login");
+
+  const { welcome } = await searchParams;
 
   const supabase = await createClient();
   const { data: profile } = await supabase
@@ -16,5 +18,11 @@ export default async function EditProfilePage() {
     .eq("id", user.id)
     .maybeSingle();
 
-  return <ProfileDetailsForm profile={profile} email={user.email} />;
+  return (
+    <ProfileDetailsForm
+      profile={profile}
+      email={user.email}
+      welcome={Boolean(welcome)}
+    />
+  );
 }

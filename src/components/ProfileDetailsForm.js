@@ -6,16 +6,22 @@ import { GENDER_OPTIONS } from "@/lib/profile";
 const inputClass =
   "mt-1 w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm text-ink outline-none placeholder:text-muted focus:border-brand";
 
-export default function ProfileDetailsForm({ profile, email }) {
+export default function ProfileDetailsForm({ profile, email, welcome }) {
   return (
     <div className="px-4 pb-8 pt-6">
-      <Link href="/profile" className="text-sm text-muted">
-        ← Back to profile
-      </Link>
+      {!welcome && (
+        <Link href="/profile" className="text-sm text-muted">
+          ← Back to profile
+        </Link>
+      )}
 
-      <h1 className="mt-2 text-xl font-bold text-ink">Your details</h1>
+      <h1 className="mt-2 text-xl font-bold text-ink">
+        {welcome ? "Welcome! Tell us about you" : "Your details"}
+      </h1>
       <p className="mt-1 text-sm text-muted">
-        Signed in as {email}
+        {welcome
+          ? `Your email ${email} is confirmed. Just a few details to finish.`
+          : `Signed in as ${email}`}
       </p>
 
       <form action={saveProfile} className="mt-5 flex flex-col gap-3">

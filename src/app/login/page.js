@@ -31,8 +31,11 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error: otpError } = await supabase.auth.signInWithOtp({
       email,
-      // Logging in must not quietly create an account for a mistyped address.
-      options: { shouldCreateUser: false },
+      options: {
+        // Logging in must not quietly create an account for a mistyped address.
+        shouldCreateUser: false,
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
 
     setLoading(false);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -21,6 +21,19 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // If the email carried a link and it was opened in this browser, a session
+  // appears without the code ever being typed. Move straight on to the
+  // questions rather than leaving this tab waiting forever.
+  useEffect(() => {
+    const supabase = createClient();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) setStep((current) => (current === "details" ? current : "details"));
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   async function sendCode(e) {
     e?.preventDefault();
     setError("");
@@ -29,7 +42,11 @@ export default function SignupPage() {
     const supabase = createClient();
     const { error: otpError } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        // If the email carries a link instead of a code, land it in the app.
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
 
     setLoading(false);
@@ -145,6 +162,11 @@ export default function SignupPage() {
           >
             Didn&apos;t get it? Send again
           </button>
+          <p className="rounded-xl bg-surface-2 p-3 text-xs text-muted">
+            Got a link instead of a code? Open it{" "}
+            <strong className="text-ink">on this device</strong> — opening it
+            elsewhere signs you in there instead.
+          </p>
         </form>
       )}
 
