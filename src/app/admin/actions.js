@@ -551,25 +551,31 @@ function withTimeout(promise, ms, label) {
 // Fills in photos for places that have a website but no picture yet, by reading
 // the site's own preview image. Nothing is overwritten: a place that already
 // has a photo is left alone.
+// A site that serves one brand image for every branch would give fifty
+// listings the same picture, which looks worse than no picture at all.
+function looksGeneric(url) {
+  return /social[-_]?share|og[-_]?default|default[-_]?image|placeholder|logo|favicon|sprite/i.test(url);
+}
+
 export async function fillPhotos(_prevState) {
   const admin = await getAdminUser();
   if (!admin) return { error: "Not authorised" };
 
   const supabase = await createClient();
 
+  // Oldest attempt first, never-tried before that, so a site that blocks us
+  // drops to the back of the queue instead of holding up everything behind it.
   const { data: pending, error: readError } = await supabase
     .from("places")
     .select("id, name, website")
     .not("website", "is", null)
     .is("photo_url", null)
+    .order("photo_attempted_at", { ascending: true, nullsFirst: true })
     .order("id")
     .limit(PHOTO_BATCH);
 
   if (readError) return { error: readError.message };
 
-  // "Nothing to do" has two very different causes, and saying the wrong one
-  // hides a real problem — an import that dropped the website column reads
-  // exactly like a job well done.
   if (!pending?.length) {
     const { count: withSite } = await supabase
       .from("places")
@@ -580,23 +586,29 @@ export async function fillPhotos(_prevState) {
       done: 0,
       failed: [],
       remaining: 0,
-      message:
-        withSite
-          ? `All ${withSite} place${withSite === 1 ? "" : "s"} with a website already have a photo.`
-          : "No place has a website yet, so there is nothing to fetch. Add a website to a place, or include a website column in your CSV.",
+      message: withSite
+        ? `All ${withSite} place${withSite === 1 ? "" : "s"} with a website already have a photo.`
+        : "No place has a website yet, so there is nothing to fetch. Add a website to a place, or include a website column in your CSV.",
     };
   }
+
+  // Stamp every place we are about to try, so a crash mid-batch still moves
+  // the queue on rather than replaying the same few places forever.
+  const attemptedAt = new Date().toISOString();
+  await supabase
+    .from("places")
+    .update({ photo_attempted_at: attemptedAt })
+    .in("id", pending.map((p) => p.id));
 
   const results = await Promise.allSettled(
     pending.map(async (place) => {
       const meta = await withTimeout(fetchPlaceMeta(place.website), 12000, "The site");
-      if (!meta.image) throw new Error("no preview image on the page");
+      if (!meta.image) throw new Error("that site publishes no preview image");
+      if (looksGeneric(meta.image)) throw new Error("only a generic brand image, not the venue");
 
       const stored = await withTimeout(storeImage(meta.image), 12000, "The image");
       if (!stored) throw new Error("the image couldn't be saved");
 
-      // .select() so a blocked write shows up — a refused update returns no
-      // error and no rows.
       const { data, error } = await supabase
         .from("places")
         .update({ photo_url: stored })
@@ -623,5 +635,5 @@ export async function fillPhotos(_prevState) {
   revalidatePath("/");
   revalidatePath("/admin");
 
-  return { done, failed, remaining: count ?? 0 };
+  return { done, failed, remaining: count ?? 0, tried: pending.length };
 }

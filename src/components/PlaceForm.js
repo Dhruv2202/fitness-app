@@ -67,6 +67,15 @@ export default function PlaceForm({ place }) {
     if (found.photo_url) setPhotoUrl(found.photo_url);
   }, [state]);
 
+  // A plain search URL built from the place's own name and area. We never read
+  // anything back from Google automatically - this is for you to eyeball.
+  const mapsQuery = [name, area, "Delhi"].filter(Boolean).join(", ");
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapsQuery)}`;
+  const pinnedUrl =
+    lat && lon
+      ? `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`
+      : null;
+
   return (
     <div className="px-4 pb-8 pt-6">
       <Link href="/admin" className="text-sm text-muted">
@@ -114,6 +123,36 @@ export default function PlaceForm({ place }) {
           </p>
         )}
       </form>
+
+      {name && (
+        <div className="card-shadow mt-3 rounded-2xl border border-line bg-surface p-3">
+          <p className="text-xs font-semibold text-ink">Check against Google Maps</p>
+          <p className="mt-0.5 text-xs text-muted">
+            Open it, find the real place, then copy that page's link into the box
+            above and press Get location. That pulls the exact coordinates in.
+          </p>
+          <div className="mt-2 flex gap-2">
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press flex-1 rounded-xl border border-line bg-surface py-2 text-center text-xs font-semibold text-ink"
+            >
+              🔎 Search by name
+            </a>
+            {pinnedUrl && (
+              <a
+                href={pinnedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="press flex-1 rounded-xl border border-line bg-surface py-2 text-center text-xs font-semibold text-ink"
+              >
+                📍 Check this pin
+              </a>
+            )}
+          </div>
+        </div>
+      )}
 
       <form action={savePlace} className="mt-4 flex flex-col gap-3">
         {place && <input type="hidden" name="id" value={place.id} />}

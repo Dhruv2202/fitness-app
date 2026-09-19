@@ -26,10 +26,11 @@ export default function PhotoFiller() {
 
       {state?.done !== undefined && !state.message && (
         <div className="mt-2 text-xs">
-          <p className="text-brand">
-            Added {state.done} photo{state.done === 1 ? "" : "s"}.
+          <p className={state.done > 0 ? "text-brand" : "text-muted"}>
+            Tried {state.tried ?? 0}, added {state.done} photo
+            {state.done === 1 ? "" : "s"}.
             {state.remaining > 0
-              ? ` ${state.remaining} still to go — press again.`
+              ? ` ${state.remaining} still to go — press again for the next few.`
               : " That's all of them."}
           </p>
           {state.failed?.length > 0 && (
