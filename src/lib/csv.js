@@ -49,6 +49,7 @@ export function parseCsv(text) {
 }
 
 export const IMPORT_COLUMNS = [
+  "id",
   "name",
   "type",
   "area",
@@ -61,6 +62,7 @@ export const IMPORT_COLUMNS = [
   "lon",
   "amenities",
   "website",
+  "photo_url",
 ];
 
 export function rowsToPlaces(rows) {
@@ -108,7 +110,16 @@ export function rowsToPlaces(rows) {
       );
     }
 
+    // A row carrying an id edits that place; a row without one creates a place.
+    const rawId = get("id");
+    const id = rawId === "" ? null : Number(rawId);
+    if (rawId !== "" && !Number.isInteger(id)) {
+      errors.push(`Row ${lineNumber}: id "${rawId}" is not a whole number, so this row was skipped.`);
+      return;
+    }
+
     places.push({
+      id,
       name,
       type: get("type") || "Gym",
       area: get("area") || null,
@@ -123,6 +134,7 @@ export function rowsToPlaces(rows) {
       lat: lat === "" ? null : Number(lat),
       lon: lon === "" ? null : Number(lon),
       website: get("website") || null,
+      photo_url: get("photo_url") || null,
       amenities: amenities
         ? amenities.split(/[,;|]/).map((a) => a.trim()).filter(Boolean)
         : [],
@@ -130,4 +142,20 @@ export function rowsToPlaces(rows) {
   });
 
   return { places, errors };
+}
+
+function csvCell(value) {
+  if (value === null || value === undefined) return "";
+  const text = Array.isArray(value) ? value.join(", ") : String(value);
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+}
+
+// The mirror of rowsToPlaces: what comes out here can be edited in a
+// spreadsheet and loaded straight back in, because every row carries its id.
+export function placesToCsv(places) {
+  const header = IMPORT_COLUMNS.join(",");
+  const lines = places.map((place) =>
+    IMPORT_COLUMNS.map((column) => csvCell(place[column])).join(",")
+  );
+  return [header, ...lines].join("\n") + "\n";
 }

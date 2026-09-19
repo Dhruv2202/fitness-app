@@ -27,6 +27,28 @@ export async function getPlaces() {
   return places;
 }
 
+// getPlaces trims to the columns the cards render. The export must not use it:
+// an import writes back every column it read, so a field missing here would be
+// wiped from every place on the next round trip.
+export async function getPlacesForExport() {
+  const supabase = createPublicClient();
+  const places = [];
+
+  for (let page = 0; ; page++) {
+    const { data, error } = await supabase
+      .from("places")
+      .select("*")
+      .order("id")
+      .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
+
+    if (error || !data?.length) break;
+    places.push(...data);
+    if (data.length < PAGE_SIZE) break;
+  }
+
+  return places;
+}
+
 export async function getPlace(id) {
   if (!/^\d+$/.test(id)) return null;
   const supabase = createPublicClient();

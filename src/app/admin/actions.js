@@ -280,40 +280,78 @@ export async function savePlace(formData) {
 
 const VALID_TYPES = ["Gym", "Spa", "Yoga Studio", "Activity Centre"];
 
+function placeFromRow(row) {
+  return {
+    name: String(row.name).slice(0, 200),
+    type: VALID_TYPES.includes(row.type) ? row.type : "Gym",
+    area: row.area ?? null,
+    address: row.address ?? null,
+    phone: row.phone ?? null,
+    fee: row.fee ?? null,
+    timings: row.timings ?? null,
+    rating:
+      Number.isFinite(row.rating) && row.rating >= 0 && row.rating <= 5
+        ? row.rating
+        : null,
+    lat: Number.isFinite(row.lat) ? row.lat : null,
+    lon: Number.isFinite(row.lon) ? row.lon : null,
+    photo_url: row.photo_url ?? null,
+    website: row.website ?? null,
+    amenities: Array.isArray(row.amenities) ? row.amenities : [],
+  };
+}
+
 export async function importPlaces(formData) {
   const admin = await getAdminUser();
   if (!admin) throw new Error("Not authorised");
 
-  const payload = formData.get("places");
-  const rows = JSON.parse(payload ?? "[]");
+  const rows = JSON.parse(formData.get("places") ?? "[]").filter((r) => r?.name);
   if (!Array.isArray(rows) || rows.length === 0) {
     throw new Error("Nothing to import");
   }
 
-  const values = rows
-    .filter((row) => row?.name)
-    .map((row) => ({
-      name: String(row.name).slice(0, 200),
-      type: VALID_TYPES.includes(row.type) ? row.type : "Gym",
-      area: row.area ?? null,
-      address: row.address ?? null,
-      phone: row.phone ?? null,
-      fee: row.fee ?? null,
-      timings: row.timings ?? null,
-      rating:
-        Number.isFinite(row.rating) && row.rating >= 0 && row.rating <= 5
-          ? row.rating
-          : null,
-      lat: Number.isFinite(row.lat) ? row.lat : null,
-      lon: Number.isFinite(row.lon) ? row.lon : null,
-      photo_url: row.photo_url ?? null,
-      website: row.website ?? null,
-      amenities: Array.isArray(row.amenities) ? row.amenities : [],
-    }));
-
   const supabase = await createClient();
-  const { error } = await supabase.from("places").insert(values);
-  if (error) throw new Error(error.message);
+
+  // A row with an id edits that place. Check the ids exist first, so a typo
+  // can't quietly create a place at some arbitrary id.
+  const wanted = rows.map((r) => r.id).filter((id) => Number.isInteger(id));
+  let known = new Set();
+  if (wanted.length) {
+    const { data, error } = await supabase
+      .from("places")
+      .select("id")
+      .in("id", wanted);
+    if (error) throw new Error(error.message);
+    known = new Set((data ?? []).map((p) => p.id));
+  }
+
+  const unknown = wanted.filter((id) => !known.has(id));
+  if (unknown.length) {
+    throw new Error(
+      `These ids aren't in the database: ${unknown.join(", ")}. Remove the id to add them as new places.`
+    );
+  }
+
+  const edits = rows.filter((r) => Number.isInteger(r.id));
+  const additions = rows.filter((r) => !Number.isInteger(r.id));
+
+  for (const row of edits) {
+    const { data, error } = await supabase
+      .from("places")
+      .update(placeFromRow(row))
+      .eq("id", row.id)
+      .select("id");
+    if (error) throw new Error(error.message);
+    // A refused update returns no error and no rows, so check for the row.
+    if (!data?.length) throw new Error(`Couldn't update place ${row.id}.`);
+  }
+
+  if (additions.length) {
+    const { error } = await supabase
+      .from("places")
+      .insert(additions.map(placeFromRow));
+    if (error) throw new Error(error.message);
+  }
 
   revalidatePath("/");
   revalidatePath("/admin");
