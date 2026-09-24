@@ -43,6 +43,13 @@ export default async function PlaceDetailPage({ params }) {
     initiallySaved = Boolean(data);
   }
 
+  // photos is the gallery; photo_url is the cover older rows still carry.
+  const gallery = place.photos?.length
+    ? place.photos
+    : place.photo_url
+      ? [place.photo_url]
+      : [];
+
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     place.address || `${place.name}, ${place.area ?? "Delhi"}, India`
   )}`;
@@ -50,12 +57,27 @@ export default async function PlaceDetailPage({ params }) {
   return (
     <div className="pb-8">
       <div className="relative">
-        {place.photo_url ? (
-          <img
-            src={place.photo_url}
-            alt={place.name}
-            className="h-56 w-full object-cover"
-          />
+        {gallery.length > 0 ? (
+          <div className="relative">
+            {/* Scroll-snap, so swiping works with no JavaScript at all. */}
+            <div className="flex h-56 snap-x snap-mandatory overflow-x-auto">
+              {gallery.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={i === 0 ? place.name : ""}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-56 w-full shrink-0 snap-center object-cover"
+                />
+              ))}
+            </div>
+            {gallery.length > 1 && (
+              <span className="absolute bottom-3 right-3 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-sm">
+                {gallery.length} photos · swipe
+              </span>
+            )}
+          </div>
         ) : (
           <div className="photo-placeholder flex h-44 w-full items-center justify-center text-6xl">
             {iconForType(place.type)}

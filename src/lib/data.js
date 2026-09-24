@@ -2,7 +2,8 @@ import { createPublicClient } from "@/lib/supabase/public";
 
 // Only the fields the list actually renders. Fetching every column meant
 // sending roughly four times more data than the cards use.
-const LIST_FIELDS = "id, name, type, area, fee, rating, photo_url, lat, lon";
+const LIST_FIELDS =
+  "id, name, type, area, fee, rating, photo_url, photos, lat, lon";
 
 // Supabase caps a single response at 1000 rows, so pull pages until exhausted.
 // Without this, places beyond the first 1000 would silently disappear.

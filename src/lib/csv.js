@@ -63,6 +63,7 @@ export const IMPORT_COLUMNS = [
   "amenities",
   "website",
   "photo_url",
+  "photos",
 ];
 
 export function rowsToPlaces(rows) {
@@ -135,6 +136,12 @@ export function rowsToPlaces(rows) {
       lon: lon === "" ? null : Number(lon),
       website: get("website") || null,
       photo_url: get("photo_url") || null,
+      // Several URLs in one cell, separated by a pipe: a comma would fight the
+      // CSV itself and URLs never contain a pipe.
+      photos: (get("photos") || "")
+        .split("|")
+        .map((u) => u.trim())
+        .filter(Boolean),
       amenities: amenities
         ? amenities.split(/[,;|]/).map((a) => a.trim()).filter(Boolean)
         : [],
@@ -144,9 +151,11 @@ export function rowsToPlaces(rows) {
   return { places, errors };
 }
 
-function csvCell(value) {
+function csvCell(value, column) {
   if (value === null || value === undefined) return "";
-  const text = Array.isArray(value) ? value.join(", ") : String(value);
+  const text = Array.isArray(value)
+    ? value.join(column === "photos" ? " | " : ", ")
+    : String(value);
   return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
 }
 
@@ -155,7 +164,7 @@ function csvCell(value) {
 export function placesToCsv(places) {
   const header = IMPORT_COLUMNS.join(",");
   const lines = places.map((place) =>
-    IMPORT_COLUMNS.map((column) => csvCell(place[column])).join(",")
+    IMPORT_COLUMNS.map((column) => csvCell(place[column], column)).join(",")
   );
   return [header, ...lines].join("\n") + "\n";
 }

@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import Link from "next/link";
-import PhotoUpload from "@/components/PhotoUpload";
+import PhotosUpload from "@/components/PhotosUpload";
 import SubmitButton from "@/components/SubmitButton";
 import DeleteButton from "@/components/DeleteButton";
 import { savePlace, deletePlace, lookupMapsLink } from "@/app/admin/actions";
@@ -174,7 +174,13 @@ export default function PlaceForm({ place }) {
           </select>
         </label>
 
-        <PhotoUpload key={photoUrl} name="photo_url" initialUrl={photoUrl} />
+        <PhotosUpload
+          key={photoUrl}
+          name="photos"
+          initialPhotos={
+            place?.photos?.length ? place.photos : photoUrl ? [photoUrl] : []
+          }
+        />
 
         <Field
           label="Area"

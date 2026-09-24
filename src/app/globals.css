@@ -91,3 +91,16 @@ body {
     transform: none;
   }
 }
+
+/* Cross-fade between a card's photos. Opacity only, so the browser can do it
+   on the compositor and a list of cards stays smooth while scrolling. */
+.card-photo {
+  transition: opacity 900ms ease-in-out;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-photo {
+    transition: none;
+  }
+}

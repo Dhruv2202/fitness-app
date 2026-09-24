@@ -24,6 +24,19 @@ function numberOrNull(value) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+// The form sends the gallery as JSON so the order survives; a malformed value
+// must not take the whole save down with it.
+function photoList(raw) {
+  try {
+    const parsed = JSON.parse(raw ?? "[]");
+    return Array.isArray(parsed)
+      ? parsed.filter((u) => typeof u === "string" && u.trim()).slice(0, 8)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
 function placeFromForm(formData) {
   const amenities = textOrNull(formData.get("amenities"));
   return {
@@ -38,6 +51,7 @@ function placeFromForm(formData) {
     phone: textOrNull(formData.get("phone")),
     timings: textOrNull(formData.get("timings")),
     photo_url: textOrNull(formData.get("photo_url")),
+    photos: photoList(formData.get("photos")),
     website: textOrNull(formData.get("website")),
     amenities: amenities
       ? amenities.split(",").map((a) => a.trim()).filter(Boolean)
@@ -295,7 +309,8 @@ function placeFromRow(row) {
         : null,
     lat: Number.isFinite(row.lat) ? row.lat : null,
     lon: Number.isFinite(row.lon) ? row.lon : null,
-    photo_url: row.photo_url ?? null,
+    photo_url: row.photo_url ?? (row.photos?.[0] ?? null),
+    photos: Array.isArray(row.photos) ? row.photos : [],
     website: row.website ?? null,
     amenities: Array.isArray(row.amenities) ? row.amenities : [],
   };

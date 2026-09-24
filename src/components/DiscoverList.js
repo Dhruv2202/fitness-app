@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import CardPhotos from "@/components/CardPhotos";
 import PageHeader from "@/components/PageHeader";
 import { distanceInKm, formatDistance } from "@/lib/distance";
 import { iconForType } from "@/lib/icons";
@@ -126,31 +127,30 @@ export default function DiscoverList({ places }) {
       </p>
 
       <div className="mt-2 flex flex-col gap-3">
-        {listed.map((place) => (
+        {listed.map((place) => {
+          // photos is the gallery; photo_url is the cover that older rows have.
+          const gallery = place.photos?.length
+            ? place.photos
+            : place.photo_url
+              ? [place.photo_url]
+              : [];
+
+          return (
           <Link
             key={place.id}
             href={`/place/${place.id}`}
             className="press card-shadow overflow-hidden rounded-2xl border border-line bg-surface"
           >
-            {place.photo_url ? (
-              <div className="relative">
-                <img
-                  src={place.photo_url}
-                  alt={place.name}
-                  className="h-40 w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                {place.distance != null && (
-                  <span className="absolute right-2 top-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-sm">
-                    {formatDistance(place.distance)}
-                  </span>
-                )}
-              </div>
-            ) : null}
+            <CardPhotos photos={gallery} alt={place.name}>
+              {place.distance != null && (
+                <span className="absolute right-2 top-2 rounded-full bg-black/65 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-sm">
+                  {formatDistance(place.distance)}
+                </span>
+              )}
+            </CardPhotos>
 
             <div className="flex items-center gap-3 p-3">
-              {!place.photo_url && (
+              {gallery.length === 0 && (
                 <span className="photo-placeholder flex h-14 w-14 shrink-0 items-center justify-center rounded-xl text-2xl">
                   {iconForType(place.type)}
                 </span>
@@ -183,7 +183,7 @@ export default function DiscoverList({ places }) {
                   >
                     {place.fee ?? "Fee not listed"}
                   </span>
-                  {!place.photo_url && place.distance != null && (
+                  {gallery.length === 0 && place.distance != null && (
                     <span className="text-[11px] font-semibold text-brand">
                       {formatDistance(place.distance)}
                     </span>
@@ -192,7 +192,8 @@ export default function DiscoverList({ places }) {
               </div>
             </div>
           </Link>
-        ))}
+          );
+        })}
 
         {listed.length === 0 && (
           <div className="mt-10 text-center">
