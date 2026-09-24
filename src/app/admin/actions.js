@@ -289,6 +289,18 @@ export async function savePlace(formData) {
 
   revalidatePath("/");
   revalidatePath("/admin");
+
+  // Entering a run of places from a phone, bouncing back to the admin list
+  // after each one is most of the work. Come back to an empty form instead,
+  // keeping the area and type - a run is nearly always all one area.
+  if (formData.get("again")) {
+    const next = new URLSearchParams();
+    if (values.area) next.set("area", values.area);
+    if (values.type) next.set("type", values.type);
+    next.set("saved", values.name);
+    redirect(`/admin/places/new?${next}`);
+  }
+
   redirect("/admin");
 }
 

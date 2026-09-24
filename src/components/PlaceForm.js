@@ -27,9 +27,14 @@ function Field({ label, name, value, onChange, type = "text", placeholder }) {
   );
 }
 
-export default function PlaceForm({ place }) {
+export default function PlaceForm({
+  place,
+  defaultArea = "",
+  defaultType = "Gym",
+  justSaved = "",
+}) {
   const [name, setName] = useState(place?.name ?? "");
-  const [area, setArea] = useState(place?.area ?? "");
+  const [area, setArea] = useState(place?.area ?? defaultArea);
   const [address, setAddress] = useState(place?.address ?? "");
   const [phone, setPhone] = useState(place?.phone ?? "");
   const [fee, setFee] = useState(place?.fee ?? "");
@@ -85,6 +90,13 @@ export default function PlaceForm({ place }) {
       <h1 className="mt-2 text-xl font-bold text-ink">
         {place ? "Edit place" : "Add a place"}
       </h1>
+
+      {justSaved && (
+        <p className="mt-2 rounded-xl bg-brand-soft px-3 py-2 text-xs font-semibold text-brand">
+          Saved &ldquo;{justSaved}&rdquo;. Area and type are kept — just fill in
+          the next one.
+        </p>
+      )}
 
       <form
         action={lookupAction}
@@ -163,7 +175,7 @@ export default function PlaceForm({ place }) {
           <span className="text-xs font-semibold text-ink">Type</span>
           <select
             name="type"
-            defaultValue={place?.type ?? "Gym"}
+            defaultValue={place?.type ?? defaultType}
             className={inputClass}
           >
             {PLACE_TYPES.map((type) => (
@@ -247,6 +259,17 @@ export default function PlaceForm({ place }) {
           label={place ? "Save changes" : "Add place"}
           pendingLabel={place ? "Saving..." : "Adding..."}
         />
+
+        {!place && (
+          <button
+            type="submit"
+            name="again"
+            value="1"
+            className="press w-full rounded-xl border border-line bg-surface py-3 text-sm font-semibold text-ink"
+          >
+            Save &amp; add another
+          </button>
+        )}
       </form>
 
       {place && (
